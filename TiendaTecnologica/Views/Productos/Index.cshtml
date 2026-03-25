@@ -1,0 +1,31 @@
+﻿@model IEnumerable<TiendaTecnologica.Models.Producto>
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<h2>Listado de Productos</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Categoría</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nombre</td>
+                <td>@item.Marca</td>
+                <td>₡@item.Precio</td>
+                <td>@item.Stock</td>
+                <td>@item.Categoria?.Nombre</td>
+            </tr>
+        }
+    </tbody>
+</table>

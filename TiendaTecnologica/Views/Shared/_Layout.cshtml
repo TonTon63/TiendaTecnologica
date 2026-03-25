@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TechStore CR</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+            <div class="container position-relative">
+
+                <!-- Logo y nombre -->
+                <a class="navbar-brand d-flex align-items-center m-0" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/LogoTechStore.png" alt="Logo TechStore CR" class="logo-navbar me-2" />
+                    <span class="fw-bold nombre-tienda">TechStore CR</span>
+                </a>
+
+                <!-- Botón responsive -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal"
+                        aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Mostrar navegación">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Menú centrado -->
+                <div class="collapse navbar-collapse justify-content-center" id="navbarPrincipal">
+                    <ul class="navbar-nav align-items-lg-center">
+
+                        @await Component.InvokeAsync("CategoriasMenu")
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="SobreNosotros">
+                                Sobre nosotros
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="EnviosDevoluciones">
+                                Envío y devoluciones
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Espaciador derecho para balance visual en desktop -->
+                <div class="d-none d-lg-block navbar-balance-space"></div>
+
+            </div>
+        </nav>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="footer-dark text-white mt-5 pt-5 pb-3">
+        <div class="container">
+            <div class="row g-4">
+
+                <div class="col-md-3">
+                    <h5>TechStore CR</h5>
+                    <p>Tecnología al mejor precio para tu hogar, oficina y setup gamer.</p>
+                </div>
+
+                <div class="col-md-3">
+                    <h6>Información</h6>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a asp-controller="Home" asp-action="SobreNosotros" class="footer-link">
+                                Sobre nosotros
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Home" asp-action="EnviosDevoluciones" class="footer-link">
+                                Envíos y devoluciones
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="footer-link">Garantías</a>
+                        </li>
+                        <li>
+                            <a href="#" class="footer-link">Términos y condiciones</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                    <h6>Contacto</h6>
+                    <p class="mb-1">correo@techstore.com</p>
+                    <p class="mb-1">WhatsApp: +506 8888-8888</p>
+                    <p class="mb-0">Atención al cliente</p>
+                </div>
+
+                <div class="col-md-3">
+                    <h6>Redes sociales</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Instagram</a></li>
+                        <li><a href="#" class="footer-link">Facebook</a></li>
+                        <li><a href="#" class="footer-link">TikTok</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <hr class="border-light opacity-25 mt-4" />
+
+            <p class="text-center mb-0">© 2026 TechStore CR. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

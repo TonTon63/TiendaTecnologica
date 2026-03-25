@@ -1,0 +1,21 @@
+﻿@model IEnumerable<TiendaTecnologica.Models.Categoria>
+
+<li class="nav-item dropdown categorias-dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button">
+        Categorías
+    </a>
+
+    <ul class="dropdown-menu categorias-menu" aria-labelledby="categoriasDropdown">
+        @foreach (var categoria in Model)
+        {
+            <li>
+                <a class="dropdown-item"
+                   asp-controller="Categorias"
+                   asp-action="Catalogo"
+                   asp-route-id="@categoria.IdCategoria">
+                    @categoria.Nombre
+                </a>
+            </li>
+        }
+    </ul>
+</li>

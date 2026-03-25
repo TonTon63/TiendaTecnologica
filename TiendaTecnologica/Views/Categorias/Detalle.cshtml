@@ -1,0 +1,82 @@
+﻿@model TiendaTecnologica.ViewModels.CategoriaDetalleViewModel
+
+@{
+    ViewData["Title"] = Model.Categoria?.Nombre;
+}
+
+<div class="categoria-header mb-5">
+    <div class="p-4 p-md-5 rounded-4 shadow-sm bg-light">
+        <h1 class="fw-bold mb-2">@Model.Categoria?.Nombre</h1>
+        <p class="text-muted mb-0 fs-5">@Model.Categoria?.Descripcion</p>
+    </div>
+</div>
+
+<section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0">Explora subcategorías</h3>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var sub in Model.Subcategorias)
+        {
+            <div class="col-6 col-md-4 col-lg-2 text-center">
+                <a asp-controller="Subcategorias"
+                       asp-action="Detalle"
+                       asp-route-id="@sub.IdSubcategoria"
+                       class="text-decoration-none text-dark">
+                    <div class="subcategoria-card">
+                        <div class="subcategoria-circle mx-auto mb-3">
+                            <span>@sub.Nombre.Substring(0, 1)</span>
+                        </div>
+                        <h6 class="fw-semibold">@sub.Nombre</h6>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0">Productos destacados</h3>
+    </div>
+
+    <div class="row g-4">
+        @if (Model.Productos.Any())
+        {
+            @foreach (var item in Model.Productos.Take(8))
+            {
+                <div class="col-md-6 col-lg-3">
+                    <div class="card producto-card h-100 border-0 shadow-sm">
+                        <div class="producto-imagen-placeholder d-flex align-items-center justify-content-center">
+                            <span class="text-muted">Imagen</span>
+                        </div>
+
+                        <div class="card-body d-flex flex-column">
+                            <p class="text-muted small mb-1">@item.Subcategoria?.Nombre</p>
+                            <h5 class="card-title fw-bold">@item.Nombre</h5>
+                            <p class="text-muted mb-2">@item.Marca</p>
+                            <p class="card-text small flex-grow-1">@item.Descripcion</p>
+                            <p class="fw-bold fs-4 text-primary mb-3">₡@item.Precio</p>
+
+                            <a class="btn btn-dark mt-auto"
+                                   asp-controller="Productos"
+                                   asp-action="Detalle"
+                                   asp-route-id="@item.IdProducto">
+                                Ver producto
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-warning rounded-4">
+                    No hay productos disponibles en esta categoría.
+                </div>
+            </div>
+        }
+    </div>
+</section>

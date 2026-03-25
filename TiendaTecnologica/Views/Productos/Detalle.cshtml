@@ -1,0 +1,71 @@
+﻿@model TiendaTecnologica.Models.Producto
+
+@{
+    ViewData["Title"] = Model.Nombre;
+    var mensaje = $"Hola, me interesa el producto: {Model.Nombre} - Precio: ₡{Model.Precio}";
+    var whatsappUrl = "https://wa.me/50686806000?text=" + Uri.EscapeDataString(mensaje);
+}
+
+<div class="container py-4">
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="producto-detalle-imagen shadow-sm">
+                <div class="producto-detalle-placeholder">
+                    <span>Imagen del producto</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="producto-detalle-info">
+                <p class="producto-ruta mb-2">
+                    @Model.Categoria?.Nombre
+                    @if (Model.Subcategoria != null)
+                    {
+                        <span> / @Model.Subcategoria.Nombre</span>
+                    }
+                </p>
+
+                <h1 class="producto-detalle-titulo">@Model.Nombre</h1>
+
+                <p class="producto-detalle-marca mb-3">
+                    Marca: <strong>@Model.Marca</strong>
+                </p>
+
+                <p class="producto-detalle-descripcion">
+                    @Model.Descripcion
+                </p>
+
+                <div class="producto-precio-box my-4">
+                    <span class="producto-precio-label">Precio</span>
+                    <h2 class="producto-precio">₡@Model.Precio</h2>
+                </div>
+
+                <div class="mb-4">
+                    @if (Model.Stock > 0)
+                    {
+                        <span class="badge bg-success fs-6">Disponible</span>
+                        <span class="ms-2 text-muted">Stock: @Model.Stock</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger fs-6">Agotado</span>
+                    }
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex">
+                    <a href="@whatsappUrl" target="_blank" class="btn btn-success btn-lg px-4">
+                        Consultar por WhatsApp
+                    </a>
+
+                    <a asp-controller="Categorias"
+                           asp-action="Detalle"
+                           asp-route-id="@Model.IdCategoria"
+                           class="btn btn-outline-dark btn-lg px-4">
+                        Volver a categoría
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
