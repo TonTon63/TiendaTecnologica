@@ -2,33 +2,260 @@
 
 @{
     var sub = ViewBag.Subcategoria as TiendaTecnologica.Models.Subcategoria;
+    var productos = Model?.ToList() ?? new List<TiendaTecnologica.Models.Producto>();
     ViewData["Title"] = sub?.Nombre;
 }
 
-<div class="mb-4">
-    <h2>@sub?.Nombre</h2>
-    <p class="text-muted">Productos disponibles en esta subcategoría.</p>
+<div class="subcategoria-topbar mb-3">
+    <div class="breadcrumb-custom">
+        <a asp-controller="Home" asp-action="Index">Inicio</a>
+        <span>/</span>
+
+        <a asp-controller="Categorias"
+               asp-action="Detalle"
+               asp-route-id="@sub?.IdCategoria">
+            Categoría
+        </a>
+        <span>/</span>
+
+        <span class="active">@sub?.Nombre</span>
+    </div>
+
 </div>
 
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-md-4 col-lg-3 mb-4">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">@item.Nombre</h5>
-                    <p class="text-muted mb-1">@item.Marca</p>
-                    <p class="card-text small flex-grow-1">@item.Descripcion</p>
-                    <p class="fw-bold fs-5">₡@item.Precio</p>
+<div class="subcategoria-page-header mb-5">
+    <div class="subcategoria-page-banner p-4 p-md-5 rounded-4 shadow-sm">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <span class="subcategoria-page-badge mb-3 d-inline-block">Catálogo</span>
+                <h1 class="subcategoria-page-title mb-2">@sub?.Nombre</h1>
+                <p class="text-muted mb-0 fs-5">
+                    Explora los productos disponibles en esta subcategoría.
+                </p>
+            </div>
 
-                    <a class="btn btn-outline-primary mt-auto"
-                           asp-controller="Productos"
-                           asp-action="Detalle"
-                           asp-route-id="@item.IdProducto">
-                        Ver producto
-                    </a>
+            <div class="subcategoria-stats">
+                <div class="subcategoria-stat-box">
+                    <span class="subcategoria-stat-number" id="resultadoCount">@productos.Count</span>
+                    <span class="subcategoria-stat-label">Productos</span>
                 </div>
             </div>
         </div>
-    }
+    </div>
 </div>
+
+<section class="mb-4">
+    <div class="catalogo-toolbar catalogo-toolbar-compact">
+        <div class="catalogo-toolbar-top mb-3">
+            <h5 class="catalogo-toolbar-title mb-0">Filtrar productos</h5>
+        </div>
+
+        <div class="catalogo-filtros-compact">
+            <div class="catalogo-filtro-item catalogo-filtro-busqueda">
+                <label for="filtroBusqueda" class="catalogo-label">Buscar</label>
+                <div class="catalogo-input-wrap">
+                    <span class="catalogo-input-icon">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text"
+                           id="filtroBusqueda"
+                           class="form-control catalogo-input catalogo-input-pro"
+                           placeholder="Buscar producto..." />
+                </div>
+            </div>
+
+            <div class="catalogo-filtro-item">
+                <label for="filtroMarca" class="catalogo-label">Marca</label>
+                <select id="filtroMarca" class="form-select catalogo-select catalogo-select-pro">
+                    <option value="all">Todas</option>
+                    @foreach (var marca in productos
+                                            .Where(p => !string.IsNullOrWhiteSpace(p.Marca))
+                                            .Select(p => p.Marca!.Trim())
+                                            .Distinct()
+                                            .OrderBy(m => m))
+                    {
+                        <option value="@marca.ToLower()">@marca</option>
+                    }
+                </select>
+            </div>
+
+            <div class="catalogo-filtro-item">
+                <label for="ordenPrecio" class="catalogo-label">Ordenar</label>
+                <select id="ordenPrecio" class="form-select catalogo-select catalogo-select-pro">
+                    <option value="default">Destacados</option>
+                    <option value="precio-asc">Precio: menor a mayor</option>
+                    <option value="precio-desc">Precio: mayor a menor</option>
+                    <option value="nombre-asc">Nombre: A-Z</option>
+                    <option value="nombre-desc">Nombre: Z-A</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mb-5">
+    @if (productos.Any())
+    {
+        <div class="row g-4" id="productosGrid">
+            @foreach (var item in productos)
+            {
+                var marca = string.IsNullOrWhiteSpace(item.Marca) ? "Sin marca" : item.Marca.Trim();
+
+                <div class="col-sm-6 col-lg-4 col-xl-3 producto-item"
+                     data-nombre="@item.Nombre.ToLower()"
+                     data-marca="@marca.ToLower()"
+                     data-precio="@item.Precio">
+                    <div class="card producto-card-catalogo h-100 border-0">
+
+                        <div class="producto-img-wrapper">
+                            <div class="producto-badges">
+                                <span class="producto-badge-stock @(item.Stock > 0 ? "disponible" : "agotado")">
+                                    @(item.Stock > 0 ? "Disponible" : "Agotado")
+                                </span>
+                            </div>
+
+                            @if (!string.IsNullOrWhiteSpace(item.ImagenUrl))
+                            {
+                                <img src="@item.ImagenUrl" alt="@item.Nombre" class="producto-img" loading="lazy" />
+                            }
+                            else
+                            {
+                                <div class="producto-imagen-placeholder d-flex align-items-center justify-content-center">
+                                    <div class="producto-placeholder-content text-center">
+                                        <div class="producto-placeholder-icon mb-2">
+                                            <i class="bi bi-image"></i>
+                                        </div>
+                                        <span>Sin imagen</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="card-body d-flex flex-column">
+                            <p class="producto-subcategoria mb-2 text-uppercase">
+                                @sub?.Nombre
+                            </p>
+
+                            <h5 class="producto-titulo">@item.Nombre</h5>
+
+                            <p class="producto-marca mb-3">@marca</p>
+
+                            <div class="producto-footer mt-auto">
+                                <div class="producto-precio-wrap mb-3">
+                                    <span class="producto-precio-label">Precio</span>
+                                    <div class="producto-precio">
+                                        ₡@item.Precio.ToString("N2")
+                                    </div>
+                                </div>
+
+                                <div class="producto-actions">
+                                    <a class="btn producto-btn w-100"
+                                           asp-controller="Productos"
+                                           asp-action="Detalle"
+                                           asp-route-id="@item.IdProducto">
+                                        Ver producto
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div id="sinResultadosCatalogo" class="alert alert-info rounded-4 mt-4 d-none">
+            No se encontraron productos con los filtros seleccionados.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning rounded-4">
+            No hay productos disponibles en esta subcategoría.
+        </div>
+    }
+</section>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const grid = document.getElementById("productosGrid");
+            if (!grid) return;
+
+            const inputBusqueda = document.getElementById("filtroBusqueda");
+            const filtroMarca = document.getElementById("filtroMarca");
+            const ordenPrecio = document.getElementById("ordenPrecio");
+            const resultadoCount = document.getElementById("resultadoCount");
+            const emptyState = document.getElementById("sinResultadosCatalogo");
+
+            let items = Array.from(grid.querySelectorAll(".producto-item"));
+
+            function aplicarFiltros() {
+                const texto = (inputBusqueda.value || "").trim().toLowerCase();
+                const marca = (filtroMarca.value || "all").toLowerCase();
+
+                let visibles = 0;
+
+                items.forEach(item => {
+                    const nombre = item.dataset.nombre || "";
+                    const itemMarca = item.dataset.marca || "";
+
+                    const cumpleTexto = nombre.includes(texto);
+                    const cumpleMarca = marca === "all" || itemMarca === marca;
+
+                    const mostrar = cumpleTexto && cumpleMarca;
+
+                    item.classList.toggle("d-none", !mostrar);
+
+                    if (mostrar) visibles++;
+                });
+
+                if (resultadoCount) {
+                    resultadoCount.textContent = visibles;
+                }
+
+                if (emptyState) {
+                    emptyState.classList.toggle("d-none", visibles > 0);
+                }
+            }
+
+            function aplicarOrden() {
+                const orden = ordenPrecio.value;
+                const visibles = items.filter(item => !item.classList.contains("d-none"));
+
+                visibles.sort((a, b) => {
+                    const precioA = parseFloat(a.dataset.precio || "0");
+                    const precioB = parseFloat(b.dataset.precio || "0");
+                    const nombreA = (a.dataset.nombre || "").toLowerCase();
+                    const nombreB = (b.dataset.nombre || "").toLowerCase();
+
+                    switch (orden) {
+                        case "precio-asc":
+                            return precioA - precioB;
+                        case "precio-desc":
+                            return precioB - precioA;
+                        case "nombre-asc":
+                            return nombreA.localeCompare(nombreB);
+                        case "nombre-desc":
+                            return nombreB.localeCompare(nombreA);
+                        default:
+                            return 0;
+                    }
+                });
+
+                visibles.forEach(item => grid.appendChild(item));
+            }
+
+            function refrescarCatalogo() {
+                aplicarFiltros();
+                aplicarOrden();
+            }
+
+            inputBusqueda?.addEventListener("input", refrescarCatalogo);
+            filtroMarca?.addEventListener("change", refrescarCatalogo);
+            ordenPrecio?.addEventListener("change", refrescarCatalogo);
+
+            refrescarCatalogo();
+        });
+    </script>
+}

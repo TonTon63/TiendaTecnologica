@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<TiendaTecnologica.Models.Categoria>
 
 <li class="nav-item dropdown categorias-dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button">
+    <a class="nav-link dropdown-toggle"
+           href="#"
+           id="categoriasDropdown"
+           role="button"
+           data-bs-toggle="dropdown"
+           aria-expanded="false">
         Categorías
     </a>
 
@@ -10,9 +15,9 @@
         {
             <li>
                 <a class="dropdown-item"
-                   asp-controller="Categorias"
-                   asp-action="Catalogo"
-                   asp-route-id="@categoria.IdCategoria">
+                       asp-controller="Categorias"
+                       asp-action="Detalle"
+                       asp-route-id="@categoria.IdCategoria">
                     @categoria.Nombre
                 </a>
             </li>

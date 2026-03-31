@@ -2,14 +2,80 @@
     ViewData["Title"] = "Inicio";
 }
 
-<div id="carouselHome" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselHome" class="carousel slide carousel-fade" data-bs-ride="carousel">
     <div class="carousel-inner">
 
         <div class="carousel-item active">
             <div class="carousel-banner d-flex align-items-center">
                 <div class="container text-white">
-                    <h1 class="fw-bold">Tecnología al mejor precio</h1>
-                    <p>Descubre nuestros productos</p>
+                    <div class="row align-items-center min-vh-50 g-4">
+                        <div class="col-lg-7 fade-in-up">
+                            <span class="badge bg-light text-primary px-3 py-2 rounded-pill mb-3">
+                                Tecnología • Innovación • Calidad
+                            </span>
+
+                            <h1 class="fw-bold display-4 hero-home-title">
+                                Tecnología al mejor precio en Costa Rica
+                            </h1>
+
+                            <p class="lead mb-4 hero-home-text">
+                                Descubre computadoras, periféricos, componentes y accesorios
+                                con estilo, rendimiento y garantía.
+                            </p>
+
+                            <div class="d-flex flex-wrap gap-3">
+                                <a asp-controller="Categorias"
+                                   asp-action="Detalle"
+                                   asp-route-id="1"
+                                   class="btn btn-primary btn-home-hero">
+                                    Explorar categorías
+                                </a>
+
+                                <a href="#productos-home"
+                                   class="btn btn-outline-light btn-home-hero-outline">
+                                    Ver productos destacados
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5 d-none d-lg-block fade-in-up delay-1">
+                            <div class="hero-glass-card text-white p-4">
+                                <h5 class="fw-bold mb-3">Lo más buscado</h5>
+
+                                <a asp-controller="Subcategorias"
+                                   asp-action="Detalle"
+                                   asp-route-id="1"
+                                   class="hero-mini-item text-white text-decoration-none">
+                                    <span><i class="bi bi-laptop me-2"></i>Laptops</span>
+                                    <span>→</span>
+                                </a>
+
+                                <a asp-controller="Categorias"
+                                   asp-action="Detalle"
+                                   asp-route-id="6"
+                                   class="hero-mini-item text-white text-decoration-none">
+                                    <span><i class="bi bi-controller me-2"></i>Gaming</span>
+                                    <span>→</span>
+                                </a>
+
+                                <a asp-controller="Subcategorias"
+                                   asp-action="Detalle"
+                                   asp-route-id="28"
+                                   class="hero-mini-item text-white text-decoration-none">
+                                    <span><i class="bi bi-display me-2"></i>Monitores</span>
+                                    <span>→</span>
+                                </a>
+
+                                <a asp-controller="Categorias"
+                                   asp-action="Detalle"
+                                   asp-route-id="1"
+                                   class="hero-mini-item text-white text-decoration-none">
+                                    <span><i class="bi bi-pc-display me-2"></i>Computadoras</span>
+                                    <span>→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -17,8 +83,32 @@
         <div class="carousel-item">
             <div class="carousel-banner banner-2 d-flex align-items-center">
                 <div class="container text-white">
-                    <h1 class="fw-bold">Ofertas en Gaming</h1>
-                    <p>Equipos y accesorios gamer</p>
+                    <div class="row align-items-center min-vh-50 g-4">
+                        <div class="col-lg-7 fade-in-up">
+                            <span class="badge bg-light text-dark px-3 py-2 rounded-pill mb-3">
+                                Zona Gamer
+                            </span>
+
+                            <h1 class="fw-bold display-4 hero-home-title">
+                                Ofertas en Gaming
+                            </h1>
+
+                            <p class="lead mb-4 hero-home-text">
+                                Consolas, sillas, teclados, mouse y accesorios gamer
+                                para llevar tu setup al siguiente nivel.
+                            </p>
+                        </div>
+
+                        <div class="col-lg-5 d-none d-lg-block fade-in-up delay-1">
+                            <div class="hero-glass-card text-white p-4">
+                                <h5 class="fw-bold mb-3">Setup ideal</h5>
+                                <p class="mb-2">✔ Monitores de alta frecuencia</p>
+                                <p class="mb-2">✔ Mouse y teclados mecánicos</p>
+                                <p class="mb-2">✔ Audio inmersivo</p>
+                                <p class="mb-0">✔ Rendimiento de nivel pro</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,8 +116,32 @@
         <div class="carousel-item">
             <div class="carousel-banner banner-3 d-flex align-items-center">
                 <div class="container text-white">
-                    <h1 class="fw-bold">Arma tu PC</h1>
-                    <p>Componentes de alto rendimiento</p>
+                    <div class="row align-items-center min-vh-50 g-4">
+                        <div class="col-lg-7 fade-in-up">
+                            <span class="badge bg-light text-primary px-3 py-2 rounded-pill mb-3">
+                                Potencia y rendimiento
+                            </span>
+
+                            <h1 class="fw-bold display-4 hero-home-title">
+                                Arma tu PC ideal
+                            </h1>
+
+                            <p class="lead mb-4 hero-home-text">
+                                Encuentra componentes confiables para oficina, edición,
+                                estudio o gaming de alto rendimiento.
+                            </p>
+                        </div>
+
+                        <div class="col-lg-5 d-none d-lg-block fade-in-up delay-1">
+                            <div class="hero-glass-card text-white p-4">
+                                <h5 class="fw-bold mb-3">Compra con confianza</h5>
+                                <p class="mb-2">✔ Productos seleccionados</p>
+                                <p class="mb-2">✔ Atención personalizada</p>
+                                <p class="mb-2">✔ Envíos rápidos</p>
+                                <p class="mb-0">✔ Soporte por WhatsApp</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,39 +157,76 @@
     </button>
 </div>
 
-<section class="container my-5">
-    <h2 class="fw-bold mb-4">Categorías destacadas</h2>
+<section class="container my-5 py-2">
+    <div class="section-heading d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Categorías destacadas</h2>
+            <p class="text-muted mb-0">Explora nuestras secciones más importantes</p>
+        </div>
+    </div>
 
     <div class="row g-4">
 
-        <div class="col-6 col-md-3">
-            <a href="/Categorias/Detalle/1" class="text-decoration-none">
-                <div class="categoria-home-card">
-                    <h5>Computadoras</h5>
+        <div class="col-6 col-md-3 fade-in-up">
+            <a asp-controller="Categorias"
+               asp-action="Detalle"
+               asp-route-id="1"
+               class="text-decoration-none d-block h-100">
+                <div class="categoria-home-card h-100">
+                    <div>
+                        <div class="categoria-icono mb-3">
+                            <i class="bi bi-pc-display-horizontal"></i>
+                        </div>
+                        <h5>Computadoras y Componentes</h5>
+                    </div>
                 </div>
             </a>
         </div>
 
-        <div class="col-6 col-md-3">
-            <a href="/Categorias/Detalle/2" class="text-decoration-none">
-                <div class="categoria-home-card">
-                    <h5>Periféricos</h5>
+        <div class="col-6 col-md-3 fade-in-up delay-1">
+            <a asp-controller="Categorias"
+               asp-action="Detalle"
+               asp-route-id="2"
+               class="text-decoration-none d-block h-100">
+                <div class="categoria-home-card h-100">
+                    <div>
+                        <div class="categoria-icono mb-3">
+                            <i class="bi bi-keyboard"></i>
+                        </div>
+                        <h5>Periféricos y Accesorios</h5>
+                    </div>
                 </div>
             </a>
         </div>
 
-        <div class="col-6 col-md-3">
-            <a href="/Categorias/Detalle/3" class="text-decoration-none">
-                <div class="categoria-home-card">
-                    <h5>Audio y Video</h5>
+        <div class="col-6 col-md-3 fade-in-up delay-2">
+            <a asp-controller="Categorias"
+               asp-action="Detalle"
+               asp-route-id="4"
+               class="text-decoration-none d-block h-100">
+                <div class="categoria-home-card h-100">
+                    <div>
+                        <div class="categoria-icono mb-3">
+                            <i class="bi bi-phone"></i>
+                        </div>
+                        <h5>Celulares y Dispositivos Móviles</h5>
+                    </div>
                 </div>
             </a>
         </div>
 
-        <div class="col-6 col-md-3">
-            <a href="/Categorias/Detalle/6" class="text-decoration-none">
-                <div class="categoria-home-card">
-                    <h5>Gaming</h5>
+        <div class="col-6 col-md-3 fade-in-up delay-3">
+            <a asp-controller="Categorias"
+               asp-action="Detalle"
+               asp-route-id="6"
+               class="text-decoration-none d-block h-100">
+                <div class="categoria-home-card h-100">
+                    <div>
+                        <div class="categoria-icono mb-3">
+                            <i class="bi bi-controller"></i>
+                        </div>
+                        <h5>Gaming</h5>
+                    </div>
                 </div>
             </a>
         </div>
@@ -83,44 +234,178 @@
     </div>
 </section>
 
-<section class="container my-5">
-    <h2 class="fw-bold mb-4">Productos destacados</h2>
-
-    <div class="row g-4">
-
-        <div class="col-md-4 col-lg-3">
-            <div class="card producto-card h-100 shadow-sm border-0">
-                <div class="producto-imagen-placeholder d-flex align-items-center justify-content-center">
-                    <span>Imagen</span>
-                </div>
-                <div class="card-body">
-                    <h5>Producto ejemplo</h5>
-                    <p class="text-muted">Marca</p>
-                    <p class="fw-bold">₡100,000</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-<section class="beneficios-section text-center py-5">
+<section id="productos-home" class="productos-destacados-section my-5 py-2">
     <div class="container">
-        <div class="row">
+        <div class="section-heading d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Productos destacados</h2>
+                <p class="text-muted mb-0">Una selección de productos populares</p>
+            </div>
+        </div>
 
-            <div class="col-md-4">
-                <h5>Envíos rápidos</h5>
-                <p>Recibe tus productos en tiempo récord</p>
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-3 fade-in-up">
+                <a asp-controller="Subcategorias"
+                   asp-action="Detalle"
+                   asp-route-id="1"
+                   class="text-decoration-none d-block h-100">
+                    <div class="card producto-card-home h-100 border-0">
+                        <div class="producto-imagen-placeholder d-flex align-items-center justify-content-center">
+                            <span>Imagen</span>
+                        </div>
+
+                        <div class="card-body">
+                            <span class="badge home-badge mb-3">Nuevo</span>
+                            <h5 class="card-title">Laptop de alto rendimiento</h5>
+                            <span class="producto-subcategoria">Laptops</span>
+
+                            <div class="producto-card-footer">
+                                <div>
+                                    <p class="producto-precio-home">
+                                        <small>Desde</small>
+                                        ₡100,000
+                                    </p>
+                                </div>
+
+                                <span class="btn btn-ver-producto">Ver</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
             </div>
 
-            <div class="col-md-4">
-                <h5>Garantía</h5>
-                <p>Todos nuestros productos tienen garantía</p>
+            <div class="col-md-6 col-lg-3 fade-in-up delay-1">
+                <a asp-controller="Subcategorias"
+                   asp-action="Detalle"
+                   asp-route-id="12"
+                   class="text-decoration-none d-block h-100">
+                    <div class="card producto-card-home h-100 border-0">
+                        <div class="producto-imagen-placeholder d-flex align-items-center justify-content-center">
+                            <span>Imagen</span>
+                        </div>
+
+                        <div class="card-body">
+                            <span class="badge home-badge mb-3">Top</span>
+                            <h5 class="card-title">Teclado mecánico gamer</h5>
+                            <span class="producto-subcategoria">Teclados</span>
+
+                            <div class="producto-card-footer">
+                                <div>
+                                    <p class="producto-precio-home">
+                                        <small>Desde</small>
+                                        ₡35,000
+                                    </p>
+                                </div>
+
+                                <span class="btn btn-ver-producto">Ver</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
             </div>
 
-            <div class="col-md-4">
-                <h5>Soporte</h5>
-                <p>Atención directa por WhatsApp</p>
+            <div class="col-md-6 col-lg-3 fade-in-up delay-2">
+                <a asp-controller="Subcategorias"
+                   asp-action="Detalle"
+                   asp-route-id="28"
+                   class="text-decoration-none d-block h-100">
+                    <div class="card producto-card-home h-100 border-0">
+                        <div class="producto-imagen-placeholder d-flex align-items-center justify-content-center">
+                            <span>Imagen</span>
+                        </div>
+
+                        <div class="card-body">
+                            <span class="badge home-badge mb-3">Oferta</span>
+                            <h5 class="card-title">Monitor Full HD</h5>
+                            <span class="producto-subcategoria">Monitores</span>
+
+                            <div class="producto-card-footer">
+                                <div>
+                                    <p class="producto-precio-home">
+                                        <small>Desde</small>
+                                        ₡85,000
+                                    </p>
+                                </div>
+
+                                <span class="btn btn-ver-producto">Ver</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-3 fade-in-up delay-3">
+                <a asp-controller="Subcategorias"
+                   asp-action="Detalle"
+                   asp-route-id="16"
+                   class="text-decoration-none d-block h-100">
+                    <div class="card producto-card-home h-100 border-0">
+                        <div class="producto-imagen-placeholder d-flex align-items-center justify-content-center">
+                            <span>Imagen</span>
+                        </div>
+
+                        <div class="card-body">
+                            <span class="badge home-badge mb-3">Popular</span>
+                            <h5 class="card-title">Headset con micrófono</h5>
+                            <span class="producto-subcategoria">Headsets</span>
+
+                            <div class="producto-card-footer">
+                                <div>
+                                    <p class="producto-precio-home">
+                                        <small>Desde</small>
+                                        ₡28,000
+                                    </p>
+                                </div>
+
+                                <span class="btn btn-ver-producto">Ver</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="beneficios-section py-5 my-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">¿Por qué elegir TechStore CR?</h2>
+            <p class="text-muted mb-0">Más que una tienda, una experiencia tecnológica confiable</p>
+        </div>
+
+        <div class="row g-4 text-center">
+
+            <div class="col-md-4 fade-in-up">
+                <div class="beneficio-card h-100">
+                    <div class="beneficio-icono mb-3">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <h5>Envíos rápidos</h5>
+                    <p class="mb-0">Recibe tus productos con rapidez y seguridad.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 fade-in-up delay-1">
+                <div class="beneficio-card h-100">
+                    <div class="beneficio-icono mb-3">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h5>Garantía real</h5>
+                    <p class="mb-0">Todos nuestros productos cuentan con respaldo y garantía.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 fade-in-up delay-2">
+                <div class="beneficio-card h-100">
+                    <div class="beneficio-icono mb-3">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <h5>Soporte directo</h5>
+                    <p class="mb-0">Atención personalizada y rápida por WhatsApp.</p>
+                </div>
             </div>
 
         </div>
@@ -128,53 +413,110 @@
 </section>
 
 <section class="container my-5 text-center">
-    <h2 class="fw-bold mb-4">Marcas que nos respaldan</h2>
+    <div class="mb-4">
+        <h2 class="fw-bold">Marcas que nos respaldan</h2>
+        <p class="text-muted mb-0">Trabajamos con marcas reconocidas por su calidad</p>
+    </div>
 
     <div class="row g-4 justify-content-center">
 
-        <div class="col-4 col-md-2">ASUS</div>
-        <div class="col-4 col-md-2">Samsung</div>
-        <div class="col-4 col-md-2">HP</div>
-        <div class="col-4 col-md-2">Logitech</div>
-        <div class="col-4 col-md-2">Kingston</div>
-
-    </div>
-</section>
-
-
-        <section class="bg-light py-5">
-    <div class="container text-center">
-        <h2 class="fw-bold mb-4">Lo que dicen nuestros clientes</h2>
-
-        <div class="row">
-
-            <div class="col-md-4">
-                ⭐⭐⭐⭐⭐
-                <p>"Excelente servicio y productos de calidad"</p>
-            </div>
-
-            <div class="col-md-4">
-                ⭐⭐⭐⭐⭐
-                <p>"Muy rápidos en la entrega"</p>
-            </div>
-
-            <div class="col-md-4">
-                ⭐⭐⭐⭐⭐
-                <p>"Recomendado al 100%"</p>
-            </div>
-
+        <div class="col-6 col-md-2 fade-in-up">
+            <div class="marca-box">ASUS</div>
         </div>
+
+        <div class="col-6 col-md-2 fade-in-up delay-1">
+            <div class="marca-box">Samsung</div>
+        </div>
+
+        <div class="col-6 col-md-2 fade-in-up delay-2">
+            <div class="marca-box">HP</div>
+        </div>
+
+        <div class="col-6 col-md-2 fade-in-up delay-3">
+            <div class="marca-box">Logitech</div>
+        </div>
+
+        <div class="col-6 col-md-2 fade-in-up">
+            <div class="marca-box">Kingston</div>
+        </div>
+
     </div>
 </section>
 
-<section class="suscripcion-section text-white text-center py-5">
-    <div class="container">
-        <h2 class="fw-bold">Únete a nuestras ofertas exclusivas</h2>
-        <p>Recibe promociones antes que nadie</p>
+<section class="container my-5 py-3">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Lo que dicen nuestros clientes</h2>
+        <p class="text-muted mb-0">La confianza de nuestros clientes nos respalda</p>
+    </div>
 
-        <form class="d-flex justify-content-center mt-3">
-            <input type="email" class="form-control w-50 me-2" placeholder="Tu correo">
-            <button class="btn btn-dark">Suscribirme</button>
+    <div class="row g-4">
+
+        <div class="col-md-4 fade-in-up">
+            <div class="testimonio-card h-100">
+                <div class="mb-3 fs-5">★★★★★</div>
+                <p class="mb-3">"Excelente servicio y productos de calidad. Muy satisfecho con la compra."</p>
+                <h6 class="mb-0 fw-bold">Cliente satisfecho</h6>
+            </div>
+        </div>
+
+        <div class="col-md-4 fade-in-up delay-1">
+            <div class="testimonio-card h-100">
+                <div class="mb-3 fs-5">★★★★★</div>
+                <p class="mb-3">"Muy rápidos en la entrega y la atención fue excelente."</p>
+                <h6 class="mb-0 fw-bold">Compra verificada</h6>
+            </div>
+        </div>
+
+        <div class="col-md-4 fade-in-up delay-2">
+            <div class="testimonio-card h-100">
+                <div class="mb-3 fs-5">★★★★★</div>
+                <p class="mb-3">"Recomendado al 100%. La tienda se ve seria y responden muy bien."</p>
+                <h6 class="mb-0 fw-bold">Cliente recurrente</h6>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section id="suscripcion" class="container my-5">
+    <div class="suscripcion-section text-white text-center py-5 px-3">
+        <h2 class="fw-bold">Únete a nuestras ofertas exclusivas</h2>
+        <p>Recibe promociones y novedades antes que nadie</p>
+
+        @if (TempData["MensajeSuscripcion"] != null)
+        {
+            <div class="suscripcion-alert success fade-in-up">
+                <div class="suscripcion-alert-icon">✔</div>
+                <div>
+                    <h6 class="mb-1">Suscripción exitosa</h6>
+                    <p class="mb-0">@TempData["MensajeSuscripcion"]</p>
+                </div>
+            </div>
+        }
+
+        @if (TempData["ErrorSuscripcion"] != null)
+        {
+            <div class="suscripcion-alert error fade-in-up">
+                <div class="suscripcion-alert-icon">!</div>
+                <div>
+                    <h6 class="mb-1">No se pudo completar</h6>
+                    <p class="mb-0">@TempData["ErrorSuscripcion"]</p>
+                </div>
+            </div>
+        }
+
+        <form asp-action="Suscribirse" method="post" class="d-flex gap-2 flex-wrap justify-content-center">
+            @Html.AntiForgeryToken()
+
+            <input type="email"
+                   name="correo"
+                   class="form-control w-auto"
+                   placeholder="Tu correo electrónico"
+                   required />
+
+            <button type="submit" class="btn btn-light">
+                Suscribirme
+            </button>
         </form>
     </div>
 </section>

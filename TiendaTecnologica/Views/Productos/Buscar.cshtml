@@ -1,0 +1,117 @@
+﻿@model IEnumerable<TiendaTecnologica.Models.Producto>
+
+@{
+    var productos = Model?.ToList() ?? new List<TiendaTecnologica.Models.Producto>();
+    var busqueda = ViewBag.Busqueda as string ?? "";
+    var totalResultados = ViewBag.TotalResultados != null ? (int)ViewBag.TotalResultados : 0;
+
+    ViewData["Title"] = "Resultados de búsqueda";
+}
+
+<div class="container py-5">
+
+    <div class="subcategoria-topbar mb-3">
+        <div class="breadcrumb-custom">
+            <a asp-controller="Home" asp-action="Index">Inicio</a>
+            <span>/</span>
+            <span class="active">Búsqueda</span>
+        </div>
+    </div>
+
+    <div class="subcategoria-page-header mb-5">
+        <div class="subcategoria-page-banner p-4 p-md-5 rounded-4 shadow-sm">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+                <div>
+                    <span class="subcategoria-page-badge mb-3 d-inline-block">Buscador</span>
+                    <h1 class="subcategoria-page-title mb-2">Resultados de búsqueda</h1>
+
+                    @if (!string.IsNullOrWhiteSpace(busqueda))
+                    {
+                        <p class="text-muted mb-0 fs-5">
+                            Mostrando resultados para: <strong>"@busqueda"</strong>
+                        </p>
+                    }
+                </div>
+
+                <div class="subcategoria-stats">
+                    <div class="subcategoria-stat-box">
+                        <span class="subcategoria-stat-number">@totalResultados</span>
+                        <span class="subcategoria-stat-label">Resultados</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BUSCADOR -->
+    <section class="mb-4">
+        <div class="catalogo-toolbar catalogo-toolbar-compact">
+
+            <form asp-controller="Productos" asp-action="Buscar" method="get">
+
+                <div class="live-search-page-wrap js-live-search-wrapper">
+
+                    <input type="text"
+                           name="q"
+                           class="form-control catalogo-input catalogo-input-pro js-live-search-input"
+                           placeholder="Buscar por nombre o marca..."
+                           value="@busqueda"
+                           autocomplete="off"
+                           data-sugerencias-url="@Url.Action("Sugerencias", "Productos")" />
+
+                    <div class="live-search-results live-search-results-page"></div>
+
+                </div>
+
+            </form>
+        </div>
+    </section>
+
+    <!-- RESULTADOS -->
+    <section class="mb-5">
+
+        @if (!string.IsNullOrWhiteSpace(busqueda) && productos.Any())
+        {
+            <div class="row g-4">
+                @foreach (var item in productos)
+                {
+                    <div class="col-sm-6 col-lg-4 col-xl-3">
+                        <div class="card producto-card-catalogo h-100 border-0">
+
+                            <div class="producto-img-wrapper">
+                                @if (!string.IsNullOrWhiteSpace(item.ImagenUrl))
+                                {
+                                    <img src="@item.ImagenUrl" class="producto-img" />
+                                }
+                                else
+                                {
+                                    <div class="producto-imagen-placeholder d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-image"></i>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="card-body d-flex flex-column">
+                                <h5>@item.Nombre</h5>
+
+                                <div class="mt-auto">
+                                    <div class="producto-precio">
+                                        ₡@item.Precio.ToString("N2")
+                                    </div>
+
+                                    <a asp-controller="Productos"
+                                           asp-action="Detalle"
+                                           asp-route-id="@item.IdProducto"
+                                           class="btn producto-btn w-100 mt-2">
+                                        Ver producto
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </section>
+</div>

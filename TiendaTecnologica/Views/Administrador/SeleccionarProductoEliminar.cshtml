@@ -1,0 +1,148 @@
+﻿@model TiendaTecnologica.ViewModels.SeleccionarProductoViewModel
+
+@{
+    ViewData["Title"] = "Seleccionar producto a eliminar";
+}
+
+<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+
+<div class="admin-page">
+    <div class="container py-5">
+        <div class="admin-header mb-4">
+            <div>
+                <span class="admin-badge">Administración</span>
+                <h1 class="admin-title">Eliminar producto</h1>
+                <p class="admin-subtitle">
+                    Selecciona la categoría, la subcategoría y el producto que deseas eliminar permanentemente.
+                </p>
+            </div>
+
+            <a asp-controller="Administrador" asp-action="Index" class="admin-back-btn">
+                ← Volver al panel
+            </a>
+        </div>
+
+        <div class="admin-card">
+            <form id="formSeleccionEliminar" method="get" asp-controller="Administrador" asp-action="EliminarProducto">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <label class="admin-label">Categoría</label>
+                        <select asp-for="IdCategoria" asp-items="Model.Categorias" class="form-select admin-input" id="categoriaSelect">
+                            <option value="">Seleccione una categoría</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="admin-label">Subcategoría</label>
+                        <select asp-for="IdSubcategoria" class="form-select admin-input" id="subcategoriaSelect">
+                            <option value="">Seleccione una subcategoría</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="admin-label">Producto</label>
+                        <select asp-for="IdProducto" class="form-select admin-input" id="productoSelect" name="id">
+                            <option value="">Seleccione un producto</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-5 d-flex gap-3 flex-wrap">
+                    <button type="submit" class="btn admin-primary-btn">
+                        Ver producto
+                    </button>
+
+                    <a asp-controller="Administrador" asp-action="Index" class="btn btn-outline-secondary">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const categoriaSelect = document.getElementById("categoriaSelect");
+            const subcategoriaSelect = document.getElementById("subcategoriaSelect");
+            const productoSelect = document.getElementById("productoSelect");
+
+            categoriaSelect.addEventListener("change", async function () {
+                const categoriaId = this.value;
+
+                subcategoriaSelect.innerHTML = '<option value="">Cargando subcategorías...</option>';
+                productoSelect.innerHTML = '<option value="">Seleccione un producto</option>';
+
+                if (!categoriaId) {
+                    subcategoriaSelect.innerHTML = '<option value="">Seleccione una subcategoría</option>';
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/Administrador/ObtenerSubcategorias?idCategoria=${categoriaId}`);
+                    const data = await response.json();
+
+                    subcategoriaSelect.innerHTML = '<option value="">Seleccione una subcategoría</option>';
+
+                    data.forEach(sub => {
+                        const option = document.createElement("option");
+                        option.value = sub.idSubcategoria;
+                        option.textContent = sub.nombre;
+                        subcategoriaSelect.appendChild(option);
+                    });
+
+                    await cargarProductos();
+                } catch (error) {
+                    subcategoriaSelect.innerHTML = '<option value="">No se pudieron cargar las subcategorías</option>';
+                    console.error(error);
+                }
+            });
+
+            subcategoriaSelect.addEventListener("change", async function () {
+                await cargarProductos();
+            });
+
+            async function cargarProductos() {
+                const categoriaId = categoriaSelect.value;
+                const subcategoriaId = subcategoriaSelect.value;
+
+                productoSelect.innerHTML = '<option value="">Cargando productos...</option>';
+
+                if (!categoriaId) {
+                    productoSelect.innerHTML = '<option value="">Seleccione un producto</option>';
+                    return;
+                }
+
+                let url = `/Administrador/ObtenerProductos?idCategoria=${categoriaId}`;
+                if (subcategoriaId) {
+                    url += `&idSubcategoria=${subcategoriaId}`;
+                }
+
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    productoSelect.innerHTML = '<option value="">Seleccione un producto</option>';
+
+                    data.forEach(prod => {
+                        const option = document.createElement("option");
+                        option.value = prod.idProducto;
+                        option.textContent = prod.nombre;
+                        productoSelect.appendChild(option);
+                    });
+                } catch (error) {
+                    productoSelect.innerHTML = '<option value="">No se pudieron cargar los productos</option>';
+                    console.error(error);
+                }
+            }
+
+            document.getElementById("formSeleccionEliminar").addEventListener("submit", function (e) {
+                if (!productoSelect.value) {
+                    e.preventDefault();
+                    alert("Debes seleccionar un producto.");
+                }
+            });
+        });
+    </script>
+}

@@ -40,7 +40,7 @@ namespace TiendaTecnologica.Controllers
                 Productos = productos
             };
 
-            return View(vm);
+            return View( vm);
         }
     }
 }

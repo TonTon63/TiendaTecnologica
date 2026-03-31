@@ -1,0 +1,43 @@
+﻿@page
+@model LogoutModel
+
+@{
+    ViewData["Title"] = "Sesión cerrada";
+}
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+
+<div class="admin-page">
+    <div class="container py-5 d-flex justify-content-center align-items-center">
+
+        <div class="admin-card text-center" style="max-width: 420px; width: 100%;">
+
+            <div class="mb-4">
+                <div style="font-size: 3rem;">👋</div>
+            </div>
+
+            <h2 class="fw-bold mb-3">Sesión cerrada</h2>
+
+            <p class="text-muted mb-4">
+                Has cerrado sesión correctamente.<br />
+                Gracias por usar TechStore CR.
+            </p>
+
+            <div class="d-grid gap-2">
+                <a asp-controller="Home"
+                       asp-action="Index"
+                       class="admin-primary-btn text-center">
+                    Ir al inicio
+                </a>
+
+                <a asp-area="Identity"
+                       asp-page="/Account/Login"
+                       class="admin-back-btn text-center">
+                    Iniciar sesión nuevamente
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

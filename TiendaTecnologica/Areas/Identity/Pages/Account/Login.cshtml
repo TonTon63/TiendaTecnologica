@@ -1,0 +1,88 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+
+<div class="auth-page">
+    <div class="auth-wrapper">
+
+        <!-- Lado izquierdo / branding -->
+        <div class="auth-brand">
+            <div class="auth-brand-content">
+                <img src="~/images/LogoTechStore.png" alt="TechStore CR" class="auth-logo" />
+
+                <span class="auth-badge">Panel de acceso</span>
+
+                <h1>Bienvenido a TechStore CR</h1>
+                <p>
+                    Inicia sesión para acceder al panel de administración
+                    y gestionar el contenido de la tienda.
+                </p>
+
+                <ul class="auth-features">
+                    <li>Gestión de categorías y subcategorías</li>
+                    <li>Administración de productos</li>
+                    <li>Control interno del sitio</li>
+                </ul>
+
+                <a asp-controller="Home" asp-action="Index" class="auth-back-link">
+                    ← Volver al sitio
+                </a>
+            </div>
+        </div>
+
+        <!-- Lado derecho / formulario -->
+        <div class="auth-form-side">
+            <div class="auth-card">
+                <div class="auth-card-header">
+                    <h2>Iniciar sesión</h2>
+                    <p>Ingresa tus credenciales para continuar.</p>
+                </div>
+
+                <form id="account" method="post" class="auth-form">
+                    <div asp-validation-summary="ModelOnly" class="auth-validation" role="alert"></div>
+
+                    <div class="auth-group">
+                        <label asp-for="Input.Email" class="auth-label">Correo electrónico</label>
+                        <input asp-for="Input.Email"
+                               class="auth-input"
+                               autocomplete="username"
+                               aria-required="true"
+                               placeholder="correo@techstore.com" />
+                        <span asp-validation-for="Input.Email" class="auth-error"></span>
+                    </div>
+
+                    <div class="auth-group">
+                        <label asp-for="Input.Password" class="auth-label">Contraseña</label>
+                        <input asp-for="Input.Password"
+                               class="auth-input"
+                               autocomplete="current-password"
+                               aria-required="true"
+                               placeholder="Ingresa tu contraseña" />
+                        <span asp-validation-for="Input.Password" class="auth-error"></span>
+                    </div>
+
+                    <div class="auth-options">
+                        <label asp-for="Input.RememberMe" class="auth-remember">
+                            <input class="form-check-input" asp-for="Input.RememberMe" />
+                            Recordar sesión
+                        </label>
+                    </div>
+
+                    <button id="login-submit" type="submit" class="auth-btn">
+                        Entrar al panel
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

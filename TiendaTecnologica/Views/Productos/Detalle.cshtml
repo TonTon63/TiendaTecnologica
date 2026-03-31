@@ -1,71 +1,229 @@
-﻿@model TiendaTecnologica.Models.Producto
+﻿@model TiendaTecnologica.ViewModels.ProductoDetalleViewModel
 
 @{
-    ViewData["Title"] = Model.Nombre;
-    var mensaje = $"Hola, me interesa el producto: {Model.Nombre} - Precio: ₡{Model.Precio}";
+    ViewData["Title"] = Model.Producto.Nombre;
+    var producto = Model.Producto;
+    var relacionados = Model.ProductosRelacionados;
+
+    var mensaje = $"Hola, me interesa el producto: {producto.Nombre} - Precio: ₡{producto.Precio}";
     var whatsappUrl = "https://wa.me/50686806000?text=" + Uri.EscapeDataString(mensaje);
 }
 
-<div class="container py-4">
-    <div class="row g-4">
-        <div class="col-lg-6">
-            <div class="producto-detalle-imagen shadow-sm">
-                <div class="producto-detalle-placeholder">
-                    <span>Imagen del producto</span>
+<div class="container py-5">
+    <div class="producto-detalle-wrapper">
+        <div class="row g-4 align-items-start">
+
+            <div class="col-lg-6">
+                <div class="producto-detalle-galeria">
+                    <div class="producto-detalle-imagen-box">
+                        @if (!string.IsNullOrEmpty(producto.ImagenUrl))
+                        {
+                            <img src="@producto.ImagenUrl" alt="@producto.Nombre" class="producto-detalle-img" />
+                        }
+                        else
+                        {
+                            <div class="producto-detalle-placeholder">
+                                <div class="producto-detalle-placeholder-content">
+                                    <div class="producto-detalle-placeholder-icon">
+                                        <i class="bi bi-image"></i>
+                                    </div>
+                                    <div class="producto-detalle-placeholder-text">
+                                        Imagen no disponible
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-lg-6">
-            <div class="producto-detalle-info">
-                <p class="producto-ruta mb-2">
-                    @Model.Categoria?.Nombre
-                    @if (Model.Subcategoria != null)
+            <div class="col-lg-6">
+                <div class="producto-detalle-card">
+                    <p class="producto-ruta mb-3">
+                        @producto.Categoria?.Nombre
+                        @if (producto.Subcategoria != null)
+                        {
+                            <span> / @producto.Subcategoria.Nombre</span>
+                        }
+                    </p>
+
+                    <h1 class="producto-detalle-titulo">@producto.Nombre</h1>
+
+                    @if (!string.IsNullOrWhiteSpace(producto.Marca))
                     {
-                        <span> / @Model.Subcategoria.Nombre</span>
+                        <div class="producto-marca-badge mb-3">
+                            Marca: <strong>@producto.Marca</strong>
+                        </div>
                     }
-                </p>
 
-                <h1 class="producto-detalle-titulo">@Model.Nombre</h1>
+                    <div class="producto-precio-box mb-4">
+                        <span class="producto-precio-label">Precio</span>
+                        <h2 class="producto-detalle-precio">₡@producto.Precio.ToString("N2")</h2>
+                    </div>
 
-                <p class="producto-detalle-marca mb-3">
-                    Marca: <strong>@Model.Marca</strong>
-                </p>
+                    <div class="producto-estado-box mb-4">
+                        @if (producto.Estado)
+                        {
+                            <span class="producto-estado disponible">Disponible</span>
+                        }
+                        else
+                        {
+                            <span class="producto-estado agotado">No disponible</span>
+                        }
+                    </div>
 
-                <p class="producto-detalle-descripcion">
-                    @Model.Descripcion
-                </p>
-
-                <div class="producto-precio-box my-4">
-                    <span class="producto-precio-label">Precio</span>
-                    <h2 class="producto-precio">₡@Model.Precio</h2>
-                </div>
-
-                <div class="mb-4">
-                    @if (Model.Stock > 0)
+                    @if (!string.IsNullOrWhiteSpace(producto.Descripcion) && producto.Descripcion != "<p><br></p>")
                     {
-                        <span class="badge bg-success fs-6">Disponible</span>
-                        <span class="ms-2 text-muted">Stock: @Model.Stock</span>
+                        <div class="producto-detalle-seccion mb-4">
+                            <h5 class="producto-seccion-titulo">Descripción</h5>
+                            <div class="producto-detalle-descripcion mb-0">
+                                @Html.Raw(producto.Descripcion)
+                            </div>
+                        </div>
                     }
-                    else
-                    {
-                        <span class="badge bg-danger fs-6">Agotado</span>
-                    }
-                </div>
 
-                <div class="d-grid gap-2 d-md-flex">
-                    <a href="@whatsappUrl" target="_blank" class="btn btn-success btn-lg px-4">
-                        Consultar por WhatsApp
-                    </a>
+                    <div class="producto-detalle-meta mb-4">
+                        <div class="producto-meta-item">
+                            <span class="producto-meta-label">Categoría</span>
+                            <span class="producto-meta-value">@producto.Categoria?.Nombre</span>
+                        </div>
 
-                    <a asp-controller="Categorias"
-                           asp-action="Detalle"
-                           asp-route-id="@Model.IdCategoria"
-                           class="btn btn-outline-dark btn-lg px-4">
-                        Volver a categoría
-                    </a>
+                        @if (producto.Subcategoria != null)
+                        {
+                            <div class="producto-meta-item">
+                                <span class="producto-meta-label">Subcategoría</span>
+                                <span class="producto-meta-value">@producto.Subcategoria.Nombre</span>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="producto-actions mt-3">
+
+                        <a href="@whatsappUrl" target="_blank" class="btn producto-btn-whatsapp">
+                            <i class="bi bi-whatsapp"></i>
+                            Consultar por WhatsApp
+                        </a>
+
+                        <button type="button"
+                                class="btn producto-btn-cart add-to-cart-btn"
+                                data-id="@producto.IdProducto"
+                                data-name="@producto.Nombre"
+                                data-price="@producto.Precio"
+                                data-image="@producto.ImagenUrl">
+                            <i class="bi bi-cart-plus"></i>
+                            Agregar al carrito
+                        </button>
+
+                        <a asp-controller="Categorias"
+                               asp-action="Detalle"
+                               asp-route-id="@producto.IdCategoria"
+                               class="btn producto-btn-back">
+                            <i class="bi bi-arrow-left"></i>
+                            Volver
+                        </a>
+
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
+
+    @if (relacionados != null && relacionados.Any())
+    {
+        <section class="productos-relacionados-section mt-5">
+            <div class="productos-relacionados-header">
+                <div>
+                    <span class="productos-relacionados-label">TechStore CR</span>
+                    <h3 class="productos-relacionados-title">Productos relacionados</h3>
+                    <p class="productos-relacionados-subtitle">
+                        También podrían interesarte estas opciones similares.
+                    </p>
+                </div>
+            </div>
+
+            @if (relacionados != null && relacionados.Any())
+            {
+                <div class="row g-4">
+                    @foreach (var item in relacionados)
+                    {
+                        var mensajeRelacionado = $"Hola, me interesa el producto: {item.Nombre} - Precio: ₡{item.Precio}";
+                        var whatsappRelacionado = "https://wa.me/50686806000?text=" + Uri.EscapeDataString(mensajeRelacionado);
+
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="producto-rel-card h-100">
+                                <a asp-controller="Productos" asp-action="Detalle" asp-route-id="@item.IdProducto" class="producto-rel-img-link">
+                                    @if (!string.IsNullOrEmpty(item.ImagenUrl))
+                                    {
+                                        <img src="@item.ImagenUrl" alt="@item.Nombre" class="producto-rel-img" />
+                                    }
+                                    else
+                                    {
+                                        <div class="producto-rel-placeholder">
+                                            <i class="bi bi-image"></i>
+                                        </div>
+                                    }
+                                </a>
+
+                                <div class="producto-rel-body">
+                                    @if (!string.IsNullOrWhiteSpace(item.Marca))
+                                    {
+                                        <span class="producto-rel-brand">@item.Marca</span>
+                                    }
+
+                                    <h5 class="producto-rel-name">
+                                        <a asp-controller="Productos" asp-action="Detalle" asp-route-id="@item.IdProducto">
+                                            @item.Nombre
+                                        </a>
+                                    </h5>
+
+                                    <div class="producto-rel-meta">
+                                        @if (item.Subcategoria != null)
+                                        {
+                                            <span>@item.Subcategoria.Nombre</span>
+                                        }
+                                        else if (item.Categoria != null)
+                                        {
+                                            <span>@item.Categoria.Nombre</span>
+                                        }
+                                    </div>
+
+                                    <div class="producto-rel-price">
+                                        ₡@item.Precio.ToString("N2")
+                                    </div>
+
+                                    <div class="producto-rel-actions">
+                                        <a asp-controller="Productos"
+                                               asp-action="Detalle"
+                                               asp-route-id="@item.IdProducto"
+                                               class="btn producto-rel-btn-details">
+                                            Ver detalle
+                                        </a>
+
+                                        <a href="@whatsappRelacionado"
+                                               target="_blank"
+                                               class="btn producto-rel-btn-wa">
+                                            <i class="bi bi-whatsapp"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="productos-relacionados-empty">
+                    <div class="productos-relacionados-empty-icon">
+                        <i class="bi bi-grid"></i>
+                    </div>
+                    <h5 class="productos-relacionados-empty-title">Aún no hay productos relacionados disponibles</h5>
+                    <p class="productos-relacionados-empty-text">
+                        Pronto agregaremos más opciones similares para esta categoría.
+                    </p>
+                </div>
+            }
+        </section>
+    }
 </div>

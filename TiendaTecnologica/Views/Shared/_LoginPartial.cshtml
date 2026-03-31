@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TiendaTecnologica.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="user-menu">
+        <div class="user-info">
+            <span class="user-email">@UserManager.GetUserName(User)</span>
+        </div>
+
+        <form asp-area="Identity"
+              asp-page="/Account/Logout"
+              asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="logout-btn">
+                Cerrar sesión
+            </button>
+        </form>
+    </div>
+}
+else
+{
+    <div class="user-menu">
+        <a asp-area="Identity" asp-page="/Account/Login" class="login-btn">
+            Iniciar sesión
+        </a>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 5000);
+    </script>
+}

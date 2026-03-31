@@ -1,0 +1,581 @@
+﻿/* ================================
+   HOME - HERO
+================================ */
+
+.carousel-banner {
+    height: 72vh;
+    border-radius: 0 0 32px 32px;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.10), transparent 25%), linear-gradient(135deg, #162347, #1a2f63, #20438e);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
+}
+
+    .carousel-banner::before {
+        content: "";
+        position: absolute;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        top: -120px;
+        right: -120px;
+        filter: blur(8px);
+    }
+
+    .carousel-banner::after {
+        content: "";
+        position: absolute;
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.06);
+        bottom: -80px;
+        left: -60px;
+        filter: blur(10px);
+    }
+
+    .carousel-banner .container {
+        position: relative;
+        z-index: 2;
+    }
+
+        .carousel-banner .container h1 {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            max-width: 850px;
+        }
+
+        .carousel-banner .container p {
+            font-size: 1.15rem;
+            opacity: 0.96;
+        }
+
+    .carousel-banner .lead {
+        max-width: 760px;
+        line-height: 1.7;
+    }
+
+    .carousel-banner .badge {
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+    }
+
+.banner-2 {
+    background: radial-gradient(circle at 25% 20%, rgba(255,255,255,0.08), transparent 25%), linear-gradient(135deg, #1a1632, #2f1f57, #482d8a);
+}
+
+.banner-3 {
+    background: radial-gradient(circle at 25% 20%, rgba(255,255,255,0.08), transparent 25%), linear-gradient(135deg, #10233c, #16385f, #1d5d96);
+}
+
+.min-vh-50 {
+    min-height: 50vh;
+}
+
+.hero-glass-card {
+    min-height: 190px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 24px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.hero-mini-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    font-weight: 500;
+}
+
+    .hero-mini-item:last-child {
+        border-bottom: none;
+    }
+
+    .hero-mini-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+/* ================================
+   HOME - CATEGORY CARDS
+================================ */
+
+.categoria-home-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 22px;
+    padding: 30px 16px;
+    text-align: center;
+    min-height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .categoria-home-card:hover {
+        transform: translateY(-8px);
+        border-color: rgba(59, 130, 246, 0.28);
+        box-shadow: 0 22px 44px rgba(0, 0, 0, 0.32);
+    }
+
+    .categoria-home-card h5 {
+        margin: 0;
+        font-weight: 800;
+        color: var(--text-main);
+        line-height: 1.4;
+    }
+
+.categoria-icono {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(34, 211, 238, 0.18));
+    color: white;
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.16);
+}
+
+/* ================================
+   HOME - PRODUCT CARDS
+================================ */
+
+.producto-card-home {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.05));
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.24);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    min-height: 100%;
+}
+
+    .producto-card-home:hover {
+        transform: translateY(-10px);
+        border-color: rgba(59, 130, 246, 0.28);
+        box-shadow: 0 26px 50px rgba(0, 0, 0, 0.30);
+    }
+
+    .producto-card-home .producto-imagen-placeholder {
+        height: 230px;
+        background: radial-gradient(circle at 30% 30%, rgba(59,130,246,0.18), transparent 35%), linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        color: #dbe5ff;
+        font-weight: 700;
+        font-size: 1.05rem;
+    }
+
+    .producto-card-home .card-body {
+        padding: 1.35rem 1.2rem 1.2rem;
+    }
+
+    .producto-card-home .badge {
+        border-radius: 999px;
+        padding: 0.5rem 0.75rem;
+        font-weight: 700;
+        font-size: 0.75rem;
+    }
+
+    .producto-card-home .card-title {
+        color: #ffffff !important;
+        font-size: 1.14rem;
+        font-weight: 800;
+        line-height: 1.35;
+        margin-bottom: 0.5rem;
+    }
+
+    .producto-card-home .producto-subcategoria {
+        display: inline-block;
+        color: #60a5fa !important;
+        font-size: 0.8rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        margin-bottom: 0.7rem;
+    }
+
+    .producto-card-home .producto-precio-home {
+        font-size: 1.55rem;
+        font-weight: 900;
+        color: #ffffff !important;
+        margin: 0;
+        line-height: 1.1;
+    }
+
+        .producto-card-home .producto-precio-home small {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #9fb1d9 !important;
+            letter-spacing: 0.2px;
+        }
+
+.btn-ver-producto {
+    min-width: 86px;
+    border: none;
+    border-radius: 14px;
+    padding: 10px 16px;
+    font-weight: 800;
+    color: white !important;
+    background: linear-gradient(135deg, #3b82f6, #22d3ee);
+    box-shadow: 0 10px 22px rgba(59, 130, 246, 0.26);
+}
+
+    .btn-ver-producto:hover {
+        transform: translateY(-2px);
+    }
+
+.producto-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 1.1rem;
+}
+
+/* ================================
+   HOME - BENEFITS / BRANDS / TESTIMONIALS
+================================ */
+
+.beneficio-card,
+.testimonio-card,
+.marca-box {
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.20);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.beneficio-card {
+    border-radius: 22px;
+    padding: 28px 20px;
+}
+
+    .beneficio-card:hover,
+    .testimonio-card:hover,
+    .marca-box:hover {
+        transform: translateY(-8px);
+        border-color: rgba(59, 130, 246, 0.28);
+        box-shadow: 0 22px 44px rgba(0, 0, 0, 0.30);
+    }
+
+.beneficio-icono {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    color: white;
+    font-size: 1.65rem;
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.22);
+}
+
+.marca-box {
+    border-radius: 18px;
+    padding: 22px 14px;
+    font-weight: 800;
+    color: #ecf2ff;
+    text-align: center;
+}
+
+.testimonio-card {
+    border-radius: 22px;
+    padding: 28px 22px;
+}
+
+    .testimonio-card p,
+    .beneficio-card p,
+    .marca-box {
+        color: var(--text-soft);
+    }
+
+/* ================================
+   HOME - SUBSCRIPTION
+================================ */
+
+.suscripcion-section {
+    background: linear-gradient(135deg, rgba(79, 140, 255, 0.85), rgba(49, 215, 255, 0.72));
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px;
+    box-shadow: 0 18px 40px rgba(79, 140, 255, 0.18);
+    border: 1px solid rgba(255,255,255,0.10);
+}
+
+    .suscripcion-section input.form-control {
+        border-radius: 16px;
+        padding: 14px 16px;
+        border: none;
+        min-width: 260px;
+    }
+
+    .suscripcion-section .btn {
+        border-radius: 16px;
+        padding: 14px 22px;
+        font-weight: 700;
+    }
+
+.suscripcion-alert {
+    max-width: 720px;
+    margin: 0 auto 20px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    text-align: left;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(255,255,255,0.10);
+}
+
+    .suscripcion-alert h6 {
+        font-weight: 800;
+        color: #ffffff;
+    }
+
+    .suscripcion-alert p {
+        color: rgba(255,255,255,0.88);
+        line-height: 1.6;
+        font-size: 0.96rem;
+    }
+
+.suscripcion-alert-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1rem;
+    color: #ffffff;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+}
+
+.suscripcion-alert.success {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(16, 185, 129, 0.12));
+    border-color: rgba(34, 197, 94, 0.28);
+}
+
+    .suscripcion-alert.success .suscripcion-alert-icon {
+        background: linear-gradient(135deg, #22c55e, #10b981);
+    }
+
+.suscripcion-alert.error {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(249, 115, 22, 0.12));
+    border-color: rgba(239, 68, 68, 0.28);
+}
+
+    .suscripcion-alert.error .suscripcion-alert-icon {
+        background: linear-gradient(135deg, #ef4444, #f97316);
+    }
+
+/* ================================
+   HOME RESPONSIVE
+================================ */
+
+@media (max-width: 768px) {
+    .carousel-banner {
+        height: 55vh;
+        border-radius: 0 0 24px 24px;
+    }
+
+        .carousel-banner .container h1 {
+            font-size: 2rem;
+        }
+
+        .carousel-banner .container p {
+            font-size: 1rem;
+        }
+
+    .categoria-home-card {
+        min-height: 150px;
+        padding: 22px 12px;
+    }
+
+    .categoria-icono {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .hero-glass-card {
+        margin-top: 20px;
+    }
+
+    .beneficio-card,
+    .testimonio-card,
+    .marca-box {
+        padding: 22px 16px;
+    }
+
+    .producto-card-home .producto-imagen-placeholder {
+        height: 200px;
+    }
+    .producto-imagen-placeholder {
+        height: 180px;
+        font-size: 0.9rem;
+        opacity: 0.6;
+    }
+
+    .marca-box {
+        opacity: 0.7;
+        transition: 0.3s;
+    }
+
+        .marca-box:hover {
+            opacity: 1;
+            transform: translateY(-4px);
+        }
+
+    .testimonio-card {
+        position: relative;
+    }
+
+        .testimonio-card::before {
+            content: "“";
+            font-size: 3rem;
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            opacity: 0.1;
+        }
+
+    .suscripcion-section input {
+        border-radius: 14px;
+    }
+
+    .suscripcion-section button {
+        border-radius: 14px;
+        font-weight: 700;
+    }
+
+    .producto-card-home .card-title {
+        font-size: 1rem;
+    }
+    .categoria-home-card:hover {
+        transform: translateY(-8px) scale(1.02);
+    }
+
+    .categoria-home-card:hover {
+        transform: translateY(-8px) scale(1.02);
+    }
+
+    .categoria-home-card:hover {
+        box-shadow: 0 20px 40px rgba(59,130,246,0.2);
+    }
+
+    .producto-card-home .producto-precio-home {
+        font-size: 1.35rem;
+    }
+
+    .suscripcion-alert {
+        padding: 14px 14px;
+        gap: 12px;
+    }
+
+    .suscripcion-alert-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
+    }
+}
+
+/* ================================
+   HOME - EXTRA PREMIUM TUNING
+================================ */
+
+.section-heading h2 {
+    letter-spacing: -0.3px;
+}
+
+.hero-home-title {
+    max-width: 760px;
+}
+
+.hero-home-text {
+    max-width: 680px;
+}
+
+.btn-home-hero,
+.btn-home-hero-outline {
+    min-height: 52px;
+    border-radius: 16px;
+    padding: 12px 22px;
+    font-weight: 800;
+}
+
+.btn-home-hero-outline {
+    border-width: 1px;
+}
+
+.home-badge {
+    background: rgba(255,255,255,0.10) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
+}
+
+.producto-card-home .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 220px;
+}
+
+.marca-box {
+    letter-spacing: 0.4px;
+}
+
+.testimonio-card h6 {
+    color: #ffffff;
+}
+
+.suscripcion-section form .form-control {
+    min-width: 280px;
+    max-width: 360px;
+}
+
+.carousel,
+.carousel-inner,
+.carousel-item,
+.productos-destacados-section,
+.beneficios-section,
+.section-heading,
+.categoria-home-card,
+.producto-card-home,
+.testimonio-card,
+.marca-box {
+    z-index: 1;
+}

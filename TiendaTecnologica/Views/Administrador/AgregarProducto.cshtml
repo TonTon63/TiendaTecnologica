@@ -1,0 +1,212 @@
+﻿@model TiendaTecnologica.ViewModels.ProductoAdminViewModel
+
+@{
+    ViewData["Title"] = "Agregar producto";
+}
+
+<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+<link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
+
+<div class="admin-page">
+    <div class="container py-5">
+        <div class="admin-header mb-4">
+            <div>
+                <span class="admin-badge">Administración</span>
+                <h1 class="admin-title">Agregar producto</h1>
+                <p class="admin-subtitle">
+                    Completa la información del producto y agrégalo al catálogo de TechStore CR.
+                </p>
+            </div>
+
+            <a asp-controller="Administrador" asp-action="Index" class="admin-back-btn">
+                ← Volver al panel
+            </a>
+        </div>
+
+        <div class="admin-card">
+            <form asp-action="AgregarProducto" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label asp-for="Nombre" class="admin-label"></label>
+                        <input asp-for="Nombre" class="form-control admin-input" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Marca" class="admin-label"></label>
+                        <input asp-for="Marca" class="form-control admin-input" />
+                        <span asp-validation-for="Marca" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Precio" class="admin-label"></label>
+                        <input asp-for="Precio" type="number" step="0.01" min="0" class="form-control admin-input" />
+                        <span asp-validation-for="Precio" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Estado" class="admin-label"></label>
+                        <select asp-for="Estado" class="form-select admin-input">
+                            <option value="true">Disponible</option>
+                            <option value="false">No disponible</option>
+                        </select>
+                        <span asp-validation-for="Estado" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="IdCategoria" class="admin-label">Categoría</label>
+                        <select asp-for="IdCategoria" class="form-select admin-input" asp-items="Model.Categorias" id="categoriaSelect">
+                            <option value="">Seleccione una categoría</option>
+                        </select>
+                        <span asp-validation-for="IdCategoria" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="IdSubcategoria" class="admin-label">Subcategoría</label>
+                        <select asp-for="IdSubcategoria" class="form-select admin-input" id="subcategoriaSelect">
+                            <option value="">Seleccione una subcategoría</option>
+                        </select>
+                        <span asp-validation-for="IdSubcategoria" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="admin-quill-section">
+                    <label asp-for="Descripcion" class="admin-label"></label>
+                    <div id="editorDescripcion" class="admin-quill-editor"></div>
+                    <input type="hidden" asp-for="Descripcion" id="descripcionHidden" />
+                    <span asp-validation-for="Descripcion" class="text-danger d-block mt-2"></span>
+                </div>
+
+                <div class="admin-image-section">
+                    <label asp-for="ImagenArchivo" class="admin-label">Imagen del producto</label>
+                    <input asp-for="ImagenArchivo" type="file" class="form-control admin-input" accept=".jpg,.jpeg,.png,.webp" />
+                    <span asp-validation-for="ImagenArchivo" class="text-danger"></span>
+                    <div class="form-text">Formatos permitidos: JPG, PNG, WEBP.</div>
+                </div>
+
+                <div class="mt-5 d-flex flex-column flex-md-row gap-3">
+                    <button type="submit" class="btn admin-primary-btn">
+                        Guardar producto
+                    </button>
+
+                    <a asp-controller="Administrador" asp-action="Index" class="btn btn-outline-secondary">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const editorElement = document.getElementById("editorDescripcion");
+        const descripcionHidden = document.getElementById("descripcionHidden");
+        const form = document.querySelector("form");
+
+        let quill = null;
+
+        if (editorElement && descripcionHidden) {
+        quill = new Quill("#editorDescripcion", {
+        theme: "snow",
+        placeholder: "Escribe o edita la descripción del producto...",
+        modules: {
+        toolbar: [
+        [{ 'header': [1, 2, 3, false] }],
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['link'],
+        ['clean']
+        ]
+        }
+        });
+
+        const descripcionInicial = descripcionHidden.value?.trim();
+
+        if (descripcionInicial && descripcionInicial !== "<p><br></p>") {
+        quill.root.innerHTML = descripcionInicial;
+        }
+
+        // Mantener el hidden sincronizado SIEMPRE
+        const syncDescripcion = () => {
+        const textoPlano = quill.getText().trim();
+
+        if (!textoPlano) {
+        descripcionHidden.value = "";
+        } else {
+        descripcionHidden.value = quill.root.innerHTML;
+        }
+        };
+
+        quill.on("text-change", syncDescripcion);
+
+        // Pegar como texto limpio
+        quill.root.addEventListener("paste", function (e) {
+        e.preventDefault();
+
+        const text = (e.clipboardData || window.clipboardData).getData("text/plain");
+        const range = quill.getSelection(true);
+
+        quill.insertText(range.index, text);
+        });
+
+        if (form) {
+        form.addEventListener("submit", function () {
+        syncDescripcion();
+        console.log("Descripcion enviada:", descripcionHidden.value);
+        });
+        }
+        }
+
+        const categoriaSelect = document.getElementById("categoriaSelect");
+        const subcategoriaSelect = document.getElementById("subcategoriaSelect");
+
+        if (categoriaSelect && subcategoriaSelect) {
+        categoriaSelect.addEventListener("change", async function () {
+        const categoriaId = this.value;
+
+        subcategoriaSelect.innerHTML = '<option value="">Cargando subcategorías...</option>';
+
+        if (!categoriaId) {
+        subcategoriaSelect.innerHTML = '<option value="">Seleccione una subcategoría</option>';
+        return;
+        }
+
+        try {
+        const response = await fetch(`/Administrador/ObtenerSubcategorias?idCategoria=${categoriaId}`);
+
+        if (!response.ok) {
+        throw new Error("No se pudieron obtener las subcategorías.");
+        }
+
+        const data = await response.json();
+
+        subcategoriaSelect.innerHTML = '<option value="">Seleccione una subcategoría</option>';
+
+        if (!data || data.length === 0) {
+        subcategoriaSelect.innerHTML = '<option value="">No hay subcategorías disponibles</option>';
+        return;
+        }
+
+        data.forEach(sub => {
+        const option = document.createElement("option");
+        option.value = sub.idSubcategoria;
+        option.textContent = sub.nombre;
+        subcategoriaSelect.appendChild(option);
+        });
+        } catch (error) {
+        console.error("Error cargando subcategorías:", error);
+        subcategoriaSelect.innerHTML = '<option value="">No se pudieron cargar las subcategorías</option>';
+        }
+        });
+        }
+        });
+    </script>
+}

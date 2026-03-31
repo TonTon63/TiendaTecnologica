@@ -1,0 +1,254 @@
+﻿@model IEnumerable<TiendaTecnologica.Models.Producto>
+
+@{
+    ViewData["Title"] = "Lista de productos";
+}
+
+<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+
+<div class="admin-page">
+    <div class="container py-5">
+        <div class="admin-header mb-4">
+            <div>
+                <span class="admin-badge">Administración</span>
+                <h1 class="admin-title">Lista de productos</h1>
+                <p class="admin-subtitle">
+                    Consulta, edita o elimina productos del catálogo desde esta tabla.
+                </p>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+                <a asp-controller="Administrador" asp-action="AgregarProducto" class="btn admin-primary-btn">
+                    Agregar producto
+                </a>
+                <a asp-controller="Administrador" asp-action="Index" class="admin-back-btn">
+                    ← Volver al panel
+                </a>
+            </div>
+        </div>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="admin-toast" id="toastSuccess">
+                ✔ @TempData["Success"]
+            </div>
+        }
+
+        <div class="admin-card mb-4">
+            <div class="row g-3">
+                <div class="col-lg-5">
+                    <label class="admin-label">Buscar producto</label>
+                    <input type="text"
+                           id="filtroBusqueda"
+                           class="form-control admin-input"
+                           placeholder="Buscar por nombre, marca, categoría o subcategoría..." />
+                </div>
+
+                <div class="col-lg-4">
+                    <label class="admin-label">Filtrar por categoría</label>
+                    <select id="filtroCategoria" class="form-select admin-input">
+                        <option value="">Todas las categorías</option>
+                        @foreach (var categoria in Model
+                                                    .Where(p => p.Categoria != null)
+                                                    .Select(p => p.Categoria!.Nombre)
+                                                    .Distinct()
+                                                    .OrderBy(x => x))
+                        {
+                            <option value="@categoria">@categoria</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-lg-3">
+                    <label class="admin-label">Filtrar por estado</label>
+                    <select id="filtroEstado" class="form-select admin-input">
+                        <option value="">Todos</option>
+                        <option value="Disponible">Disponible</option>
+                        <option value="No disponible">No disponible</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <div class="text-muted">
+                    Mostrando <span id="contadorProductos">@Model.Count()</span> producto(s)
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table align-middle admin-table" id="tablaProductos">
+                    <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Producto</th>
+                            <th>Marca</th>
+                            <th>Categoría</th>
+                            <th>Subcategoría</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Estado</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                var estadoTexto = item.Estado ? "Disponible" : "No disponible";
+                                <tr class="fila-producto"
+                                    data-nombre="@item.Nombre"
+                                    data-marca="@item.Marca"
+                                    data-categoria="@item.Categoria?.Nombre"
+                                    data-subcategoria="@item.Subcategoria?.Nombre"
+                                    data-estado="@estadoTexto">
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.ImagenUrl))
+                                        {
+                                            <img src="@item.ImagenUrl"
+                                                 alt="@item.Nombre"
+                                                 class="admin-table-image" />
+                                        }
+                                        else
+                                        {
+                                            <div class="admin-no-image">Sin imagen</div>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <div class="fw-bold">@item.Nombre</div>
+                                        @if (!string.IsNullOrWhiteSpace(item.Descripcion))
+                                        {
+                                            <div class="admin-table-description">
+                                                @item.Descripcion
+                                            </div>
+                                        }
+                                    </td>
+
+                                    <td>@item.Marca</td>
+                                    <td>@item.Categoria?.Nombre</td>
+                                    <td>@item.Subcategoria?.Nombre</td>
+                                    <td>₡@item.Precio</td>
+                                    <td>@item.Stock</td>
+                                    <td>
+                                        @if (item.Estado)
+                                        {
+                                            <span class="admin-status admin-status-active">Disponible</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="admin-status admin-status-inactive">No disponible</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex gap-2 justify-content-center flex-wrap">
+                                            <a asp-controller="Administrador"
+                                                   asp-action="EditarProducto"
+                                                   asp-route-id="@item.IdProducto"
+                                                   class="btn btn-sm btn-outline-primary"
+                                                   title="Editar producto">
+                                                Editar
+                                            </a>
+
+                                            <a asp-controller="Administrador"
+                                                   asp-action="EliminarProducto"
+                                                   asp-route-id="@item.IdProducto"
+                                                   class="btn btn-sm btn-outline-danger"
+                                                   title="Eliminar producto">
+                                                Eliminar
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr id="filaSinProductosOriginal">
+                                <td colspan="9" class="text-center py-4 text-muted">
+                                    No hay productos registrados.
+                                </td>
+                            </tr>
+                        }
+
+                        <tr id="filaSinResultados" style="display: none;">
+                            <td colspan="9" class="text-center py-4 text-muted">
+                                No se encontraron productos con esos filtros.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toast = document.getElementById("toastSuccess");
+            if (toast) {
+                setTimeout(() => {
+                    toast.style.opacity = "0";
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            const filtroBusqueda = document.getElementById("filtroBusqueda");
+            const filtroCategoria = document.getElementById("filtroCategoria");
+            const filtroEstado = document.getElementById("filtroEstado");
+            const filas = document.querySelectorAll(".fila-producto");
+            const contadorProductos = document.getElementById("contadorProductos");
+            const filaSinResultados = document.getElementById("filaSinResultados");
+
+            function normalizar(valor) {
+                return (valor || "").toString().trim().toLowerCase();
+            }
+
+            function aplicarFiltros() {
+                const textoBusqueda = normalizar(filtroBusqueda.value);
+                const categoriaSeleccionada = normalizar(filtroCategoria.value);
+                const estadoSeleccionado = normalizar(filtroEstado.value);
+
+                let visibles = 0;
+
+                filas.forEach(fila => {
+                    const nombre = normalizar(fila.dataset.nombre);
+                    const marca = normalizar(fila.dataset.marca);
+                    const categoria = normalizar(fila.dataset.categoria);
+                    const subcategoria = normalizar(fila.dataset.subcategoria);
+                    const estado = normalizar(fila.dataset.estado);
+
+                    const coincideBusqueda =
+                        !textoBusqueda ||
+                        nombre.includes(textoBusqueda) ||
+                        marca.includes(textoBusqueda) ||
+                        categoria.includes(textoBusqueda) ||
+                        subcategoria.includes(textoBusqueda);
+
+                    const coincideCategoria =
+                        !categoriaSeleccionada || categoria === categoriaSeleccionada;
+
+                    const coincideEstado =
+                        !estadoSeleccionado || estado === estadoSeleccionado;
+
+                    const mostrar = coincideBusqueda && coincideCategoria && coincideEstado;
+
+                    fila.style.display = mostrar ? "" : "none";
+
+                    if (mostrar) visibles++;
+                });
+
+                contadorProductos.textContent = visibles;
+                filaSinResultados.style.display = visibles === 0 ? "" : "none";
+            }
+
+            filtroBusqueda.addEventListener("input", aplicarFiltros);
+            filtroCategoria.addEventListener("change", aplicarFiltros);
+            filtroEstado.addEventListener("change", aplicarFiltros);
+        });
+    </script>
+}

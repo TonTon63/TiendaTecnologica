@@ -15,11 +15,15 @@ namespace TiendaTecnologica.Models
         [StringLength(255)]
         public string? Descripcion { get; set; }
 
+        public string? Icono { get; set; }
         public int IdCategoria { get; set; }
 
         public bool Estado { get; set; }
 
         [ForeignKey("IdCategoria")]
         public Categoria? Categoria { get; set; }
+
+     
+
     }
 }

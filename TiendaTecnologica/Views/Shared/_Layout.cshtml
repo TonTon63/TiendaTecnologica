@@ -7,27 +7,34 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/catalogo.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/producto-detalle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/paginas.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-    <header>
+    @using Microsoft.AspNetCore.Identity
+@using TiendaTecnologica.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<header>
         <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
             <div class="container position-relative">
 
-                <!-- Logo y nombre -->
                 <a class="navbar-brand d-flex align-items-center m-0" asp-controller="Home" asp-action="Index">
                     <img src="~/images/LogoTechStore.png" alt="Logo TechStore CR" class="logo-navbar me-2" />
                     <span class="fw-bold nombre-tienda">TechStore CR</span>
                 </a>
 
-                <!-- Botón responsive -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal"
                         aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Mostrar navegación">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <!-- Menú centrado -->
-                <div class="collapse navbar-collapse justify-content-center" id="navbarPrincipal">
-                    <ul class="navbar-nav align-items-lg-center">
+                <div class="collapse navbar-collapse justify-content-between" id="navbarPrincipal">
+                    <ul class="navbar-nav align-items-lg-center mx-auto">
 
                         @await Component.InvokeAsync("CategoriasMenu")
 
@@ -43,13 +50,83 @@
                             </a>
                         </li>
                     </ul>
+
+                    <div class="d-flex align-items-center navbar-actions">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <span class="nav-link me-2">
+                                Hola, @User.Identity?.Name
+                            </span>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a class="nav-link me-2" asp-controller="Administrador" asp-action="Index">
+                                    Admin
+                                </a>
+                            }
+
+                            <form asp-area="Identity"
+                                  asp-page="/Account/Logout"
+                                  method="post"
+                                  class="d-inline">
+                                <button type="submit" class="nav-link btn btn-link border-0 p-0">
+                                    Salir
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a asp-area="Identity"
+                                   asp-page="/Account/Login"
+                                   class="login-nav-btn text-decoration-none">
+                                <i class="bi bi-person"></i>
+                                <span>Ingresar</span>
+                            </a>
+                        }
+
+                        <a asp-controller="Carrito" asp-action="Index" class="cart-nav-btn text-decoration-none">
+                            <i class="bi bi-cart3"></i>
+                            <span class="cart-nav-text">Carrito</span>
+                            <span id="cartCount" class="cart-count-badge" style="display:none;">0</span>
+                        </a>
+                    </div>
                 </div>
-
-                <!-- Espaciador derecho para balance visual en desktop -->
-                <div class="d-none d-lg-block navbar-balance-space"></div>
-
             </div>
         </nav>
+
+        @{
+            var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+            var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+        }
+
+        @if (!(currentController == "Productos" && currentAction == "Buscar"))
+        {
+            <div class="header-search-strip">
+                <div class="container">
+                    <form asp-controller="Productos"
+                          asp-action="Buscar"
+                          method="get"
+                          class="header-search-form">
+                        <div class="header-search-box js-live-search-wrapper">
+                            <i class="bi bi-search header-search-icon"></i>
+
+                            <input type="text"
+                                   name="q"
+                                   class="form-control header-search-input js-live-search-input"
+                                   placeholder="Buscar productos..."
+                                   autocomplete="off"
+                                   data-sugerencias-url="@Url.Action("Sugerencias", "Productos")" />
+
+                            <button type="submit" class="header-search-btn">
+                                Buscar
+                            </button>
+
+                            <div class="live-search-results"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
     </header>
 
     <main role="main">
@@ -79,10 +156,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="footer-link">Garantías</a>
+                            <a asp-controller="Home" asp-action="Garantias" class="footer-link">Garantías</a>
                         </li>
                         <li>
-                            <a href="#" class="footer-link">Términos y condiciones</a>
+                            <a asp-controller="Home" asp-action="TerminosCondiciones" class="footer-link">Términos y condiciones</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Home" asp-action="Contactenos" class="footer-link">Contáctenos</a>
                         </li>
                     </ul>
                 </div>
@@ -113,5 +193,85 @@
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/js/cart.js" asp-append-version="true"></script>
+
+    <script>
+            document.addEventListener("DOMContentLoaded", () => {
+
+                document.querySelectorAll(".js-live-search-wrapper").forEach(wrapper => {
+
+                    const input = wrapper.querySelector(".js-live-search-input");
+                    const results = wrapper.querySelector(".live-search-results");
+                    const url = input.dataset.sugerenciasUrl;
+
+                    let timer = null;
+
+                    function show() {
+                        results.style.display = "block";
+                    }
+
+                    function hide() {
+                        results.style.display = "none";
+                    }
+
+                    function render(items, term) {
+
+                        if (!items.length) {
+                            results.innerHTML = `<div class="live-search-empty">Sin resultados</div>`;
+                            show();
+                            return;
+                        }
+
+                        let html = "";
+
+                        items.forEach(p => {
+                            html += `
+                                <div class="live-search-item" onclick="window.location='/Productos/Detalle/${p.id}'">
+                                    <strong>${p.nombre}</strong><br>
+                                    <small>${p.marca}</small>
+                                </div>
+                            `;
+                        });
+
+                        results.innerHTML = html;
+                        show();
+                    }
+
+                    input.addEventListener("input", () => {
+
+                        clearTimeout(timer);
+
+                        let term = input.value.trim();
+
+                        if (term.length < 2) {
+                            hide();
+                            return;
+                        }
+
+                        timer = setTimeout(async () => {
+
+                            const res = await fetch(`${url}?term=${term}`);
+                            const data = await res.json();
+
+                            render(data, term);
+
+                        }, 300);
+                    });
+
+                    input.addEventListener("focus", show);
+
+                    document.addEventListener("click", (e) => {
+                        if (!wrapper.contains(e.target)) hide();
+                    });
+
+                });
+
+            });
+    </script>
+
+    <div id="cartToast" class="cart-toast">
+        <i class="bi bi-check-circle-fill"></i>
+        <span id="cartToastText">Producto agregado al carrito</span>
+    </div>
 </body>
 </html>

@@ -1,0 +1,154 @@
+﻿@model TiendaTecnologica.Models.Contacto
+
+@{
+    ViewData["Title"] = "Contáctenos";
+}
+
+<section class="page-hero-section py-5">
+    <div class="container py-4">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7 fade-in-up">
+                <span class="page-badge mb-3 d-inline-block">Atención al cliente</span>
+                <h1 class="page-title mb-3">Contáctenos</h1>
+                <p class="page-subtitle mb-0">
+                    Estamos para ayudarte. Si tienes dudas sobre productos, pedidos,
+                    garantías, envíos o cualquier otra consulta, puedes comunicarte
+                    con nosotros por nuestros canales oficiales.
+                </p>
+            </div>
+
+            <div class="col-lg-5 fade-in-up delay-1">
+                <div class="info-glass-card h-100">
+                    <h5 class="fw-bold mb-3">Canales disponibles</h5>
+                    <div class="info-line">✔ Correo electrónico</div>
+                    <div class="info-line">✔ WhatsApp</div>
+                    <div class="info-line">✔ Formulario web</div>
+                    <div class="info-line mb-0">✔ Atención en horario establecido</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container py-5">
+    <div class="row g-4">
+        <div class="col-lg-7 fade-in-up">
+            <div class="content-card h-100">
+                <h2 class="section-title mb-4">Envíanos un mensaje</h2>
+
+                @if (TempData["MensajeExito"] != null)
+                {
+                    <div class="alert alert-success mb-4">
+                        @TempData["MensajeExito"]
+                    </div>
+                }
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <form asp-action="EnviarContacto" method="post" class="contact-form">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Nombre" class="form-label contact-label"></label>
+                            <input asp-for="Nombre" class="form-control contact-input" placeholder="Tu nombre completo" />
+                            <span asp-validation-for="Nombre" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Correo" class="form-label contact-label"></label>
+                            <input asp-for="Correo" class="form-control contact-input" placeholder="correo@ejemplo.com" />
+                            <span asp-validation-for="Correo" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Telefono" class="form-label contact-label"></label>
+                            <input asp-for="Telefono" class="form-control contact-input" placeholder="+506 8888-8888" />
+                            <span asp-validation-for="Telefono" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Asunto" class="form-label contact-label"></label>
+                            <select asp-for="Asunto" class="form-select contact-input">
+                                <option value="">Selecciona un asunto</option>
+                                <option>Consulta sobre productos</option>
+                                <option>Pedido o seguimiento</option>
+                                <option>Garantías</option>
+                                <option>Envíos y devoluciones</option>
+                                <option>Soporte general</option>
+                            </select>
+                            <span asp-validation-for="Asunto" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Mensaje" class="form-label contact-label"></label>
+                            <textarea asp-for="Mensaje" class="form-control contact-input contact-textarea" rows="6" placeholder="Escribe tu mensaje aquí..."></textarea>
+                            <span asp-validation-for="Mensaje" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary px-4">
+                                Enviar mensaje
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-5 fade-in-up delay-1">
+            <div class="d-flex flex-column gap-4">
+
+                <div class="content-card">
+                    <h3 class="section-title mb-3">Información de contacto</h3>
+
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">✉️</div>
+                        <div>
+                            <h6 class="mb-1 fw-bold">Correo</h6>
+                            <a href="mailto:tonvasroj060603@gmail.com" class="inline-page-link">
+                                tonvasroj060603@gmail.com
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">📱</div>
+                        <div>
+                            <h6 class="mb-1 fw-bold">WhatsApp</h6>
+                            <a href="https://wa.me/50688888888" class="inline-page-link">
+                                +506 8888-8888
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item mb-0">
+                        <div class="contact-info-icon">🕒</div>
+                        <div>
+                            <h6 class="mb-1 fw-bold">Horario</h6>
+                            <p class="mb-0 text-muted">Lunes a sábado, de 8:00 a.m. a 6:00 p.m.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3 class="section-title mb-3">Atención personalizada</h3>
+                    <p>
+                        Si necesitas ayuda con un pedido, información sobre productos
+                        o apoyo en un proceso de garantía, nuestro equipo está listo
+                        para orientarte.
+                    </p>
+                    <p class="mb-0">
+                        Te recomendamos incluir la mayor cantidad de información posible
+                        para brindarte una respuesta más rápida y precisa.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

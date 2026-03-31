@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Panel de Administración";
+}
+
+<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+
+<div class="admin-page">
+    <div class="container py-5">
+
+        <!-- HEADER -->
+        <div class="admin-header mb-5">
+            <div>
+                <span class="admin-badge">Panel Admin</span>
+                <h1 class="admin-title">TechStore CR</h1>
+                <p class="admin-subtitle">
+                    Administra tu tienda: productos, categorías y contenido desde un solo lugar.
+                </p>
+            </div>
+        </div>
+
+        <!-- CARDS -->
+        <div class="row g-4">
+
+            <!-- AGREGAR -->
+            <div class="col-lg-4 col-md-6">
+                <a asp-controller="Administrador" asp-action="AgregarProducto" class="admin-card-link">
+                    <div class="admin-action-card">
+                        <div class="admin-icon">➕</div>
+                        <h3>Agregar producto</h3>
+                        <p>Agrega nuevos productos al catálogo con imagen, precio y categoría.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- EDITAR -->
+            <div class="col-lg-4 col-md-6">
+                <a asp-controller="Administrador" asp-action="SeleccionarProductoEditar" class="admin-card-link">
+                    <div class="admin-action-card">
+                        <div class="admin-icon">✏️</div>
+                        <h3>Modificar producto</h3>
+                        <p>Edita información existente y actualiza disponibilidad.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- ELIMINAR -->
+            <div class="col-lg-4 col-md-6">
+                <a asp-controller="Administrador" asp-action="SeleccionarProductoEliminar" class="admin-card-link">
+                    <div class="admin-action-card">
+                        <div class="admin-icon">🗑️</div>
+                        <h3>Eliminar producto</h3>
+                        <p>Selecciona un producto y elimínalo de forma permanente.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <a asp-controller="Administrador" asp-action="ListaProductos" class="admin-card-link">
+                    <div class="admin-action-card">
+                        <div class="admin-icon">📋</div>
+                        <h3>Ver productos</h3>
+                        <p>Consulta todos los productos del catálogo en una sola tabla.</p>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

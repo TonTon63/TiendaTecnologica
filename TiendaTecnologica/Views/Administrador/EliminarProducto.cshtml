@@ -1,0 +1,153 @@
+﻿@model TiendaTecnologica.Models.Producto
+
+@{
+    ViewData["Title"] = "Eliminar producto";
+}
+
+<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+
+<div class="admin-page">
+    <div class="container py-5">
+        <div class="admin-header mb-4">
+            <div>
+                <span class="admin-badge">Administración</span>
+                <h1 class="admin-title">Eliminar producto</h1>
+                <p class="admin-subtitle">
+                    Esta acción eliminará el producto de forma permanente de la base de datos.
+                </p>
+            </div>
+            <a asp-controller="Administrador" asp-action="Index" class="admin-back-btn">
+                ← Volver al panel
+            </a>
+        </div>
+
+        <!-- CARD -->
+        <div class="admin-card">
+
+            <div class="row g-4 align-items-start">
+
+                <!-- IMAGEN -->
+                <div class="col-md-4">
+                    <div class="admin-image-preview text-center">
+                        @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+                        {
+                            <img src="@Model.ImagenUrl"
+                                 alt="@Model.Nombre"
+                                 class="img-fluid rounded-4 shadow-sm"
+                                 style="max-height: 260px;" />
+                        }
+                        else
+                        {
+                            <div class="text-muted">
+                                Este producto no tiene imagen.
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- INFORMACIÓN -->
+                <div class="col-md-8">
+
+                    <h2 class="fw-bold mb-3">@Model.Nombre</h2>
+
+                    <div class="row g-3 mb-4">
+
+                        <div class="col-md-6">
+                            <strong>Marca:</strong><br />
+                            @Model.Marca
+                        </div>
+
+                        <div class="col-md-6">
+                            <strong>Precio:</strong><br />
+                            ₡@Model.Precio
+                        </div>
+
+                        <div class="col-md-6">
+                            <strong>Categoría:</strong><br />
+                            @Model.Categoria?.Nombre
+                        </div>
+
+                        <div class="col-md-6">
+                            <strong>Subcategoría:</strong><br />
+                            @Model.Subcategoria?.Nombre
+                        </div>
+
+                        <div class="col-md-6">
+                            <strong>Stock:</strong><br />
+                            @Model.Stock
+                        </div>
+
+                        <div class="col-md-6">
+                            <strong>Estado:</strong><br />
+                            @(Model.Estado ? "Disponible" : "No disponible")
+                        </div>
+                    </div>
+
+                    <!-- DESCRIPCIÓN -->
+                    <div class="mb-4">
+                        <strong>Descripción:</strong>
+                        <p class="mt-2 text-muted">
+                            @Model.Descripcion
+                        </p>
+                    </div>
+
+                    <!-- ALERTA -->
+                    <div class="alert alert-danger rounded-4 mb-4">
+                        ⚠️ Esta acción es irreversible. El producto será eliminado permanentemente.
+                    </div>
+
+                    <!-- FORM -->
+                    <form id="formEliminarProducto" asp-controller="Administrador" asp-action="EliminarProducto" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="IdProducto" name="id" />
+
+                        <div class="d-flex flex-column flex-md-row gap-3">
+
+                            <button type="button"
+                                    class="btn btn-danger btn-lg px-4"
+                                    onclick="mostrarConfirmacion()">
+                                Eliminar definitivamente
+                            </button>
+
+                            <a asp-controller="Administrador"
+                                   asp-action="SeleccionarProductoEliminar"
+                                   class="btn btn-outline-secondary btn-lg px-4">
+                                Cancelar
+                            </a>
+
+                        </div>
+                    </form>
+
+                    <div id="modalConfirmacion" class="admin-modal">
+                        <div class="admin-modal-content">
+                            <h4 class="fw-bold mb-3">Confirmar eliminación</h4>
+                            <p>¿Estás seguro que deseas eliminar este producto permanentemente?</p>
+
+                            <div class="d-flex gap-2 mt-4 justify-content-end">
+                                <button class="btn btn-outline-secondary" onclick="cerrarModal()">Cancelar</button>
+                                <button class="btn btn-danger" onclick="confirmarEliminar()">Sí, eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function mostrarConfirmacion() {
+            document.getElementById("modalConfirmacion").style.display = "flex";
+        }
+
+        function cerrarModal() {
+            document.getElementById("modalConfirmacion").style.display = "none";
+        }
+
+        function confirmarEliminar() {
+            document.getElementById("formEliminarProducto").submit();
+        }
+    </script>
+}

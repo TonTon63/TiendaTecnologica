@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Carrito";
+}
+
+<div class="container py-5">
+    <div class="subcategoria-topbar">
+        <div class="breadcrumb-custom">
+            <a asp-controller="Home" asp-action="Index">Inicio</a>
+            <span>/</span>
+            <span class="active">Carrito</span>
+        </div>
+    </div>
+
+    <div class="categoria-banner p-4 p-md-5 rounded-4 shadow-sm mb-4">
+        <h1 class="fw-bold mb-2">Tu carrito</h1>
+        <p class="text-muted mb-0 fs-5">
+            Revisa tus productos seleccionados y consulta todo junto por WhatsApp.
+        </p>
+    </div>
+
+    <div id="cartEmptyState" class="alert alert-info rounded-4 d-none">
+        Tu carrito está vacío.
+    </div>
+
+    <div id="cartItemsContainer" class="cart-page-list"></div>
+
+    <div id="cartSummary" class="cart-summary mt-4 d-none">
+        <div class="cart-summary-box">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="cart-summary-label">Total estimado</span>
+                <span id="cartTotal" class="cart-summary-total">₡0.00</span>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row gap-3">
+                <a id="cartWhatsappBtn"
+                       href="#"
+                       target="_blank"
+                       class="cart-summary-btn-success text-decoration-none">
+                    <i class="bi bi-whatsapp me-2"></i>
+                    Enviar todo por WhatsApp
+                </a>
+
+                <button type="button"
+                        class="cart-summary-btn-danger"
+                        onclick="clearCart()">
+                    <i class="bi bi-trash3 me-2"></i>
+                    Vaciar carrito
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
